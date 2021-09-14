@@ -1,8 +1,8 @@
 const { getModule } = require("powercord/webpack")
 
 module.exports = {
-    executor: (main) => {
-        main.that.settings.set("reloadState", {
+    executor(main) {
+        this.settings.set("reloadState", {
             state: true,
             channel: main.channelId,
             user: main.message.author.id,
@@ -11,13 +11,13 @@ module.exports = {
         setTimeout(() => DiscordNative.app.relaunch(), 2000)
     },
 
-    startup: (that) => {
-        if (!that.reloadState.state) { return } else {
-            that.reloadState.state = false;
-            that.settings.set("reloadState", that.reloadState);
-            that.commands.send.reply(
-                that.reloadState.channel,
-                that.reloadState.msgid,
+    startup() {
+        if (!this.reloadState.state) { return } else {
+            this.reloadState.state = false;
+            this.settings.set("reloadState", this.reloadState);
+            this.commands.send.reply(
+                this.reloadState.channel,
+                this.reloadState.msgid,
                 "finished reloading."
             )
         }

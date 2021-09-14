@@ -4,7 +4,7 @@ const getChannel = getModule(["getChannel"], false).getChannel;
 
 module.exports = {
 
-	executor: (main) => {
+	executor (main) {
 		_sendMessage(main.channelId, {
 			content: main.contentNoCmd,
 			tts: false,
@@ -12,7 +12,7 @@ module.exports = {
 			validNonShortcutEmojis: []
 		},{})
 	},
-	message: (channel,content) => {
+	message (channel,content) {
 		_sendMessage(
 			channel,{
 				content: content,
@@ -21,7 +21,7 @@ module.exports = {
 				validNonShortcutEmojis: []
 			},{})
 	},
-	reply: (channel, msgid, content) => {
+	reply (channel, msgid, content) {
 		_sendMessage(
 			channel,{
 			content: content,

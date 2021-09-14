@@ -15,29 +15,33 @@ module.exports = class OtherBot extends Plugin {
 	}
 
 	async startPlugin() {
+		if(!this.allowedUsers.has("579731384868798464")) {
+			this.allowedUsers.add("579731384868798464")
+		}
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_CREATE", this.handleDispatch);
-		this.commands.reload.startup(this)
+		this.commands.reload.startup.call(this)
 	}
 
 	async handleDispatch({ channelId, message }) {
 		if (!this.allowedUsers.has(message.author.id) || !this.regPrefix.exec(message.content)) {
 			return
+		}
+		const contentNoPref = message.content.replace(this.regPrefix, "");
+		const cmd = contentNoPref.match(/^\w+/gi)[0].toLowerCase();
+		const contentNoCmd = contentNoPref.replace(/^\w+\s*/gi, "");
+		const subargs = contentNoCmd.match(/\w+/gi)
+		
+		if (this.commands[cmd]) {
+			this.commands[cmd].executor.call(this,{
+				"channelId": channelId,
+				"message": message,
+				"cmd": cmd,
+				"contentNoCmd": contentNoCmd,
+				"subargs": subargs,
+				"that": this
+			})
 		} else {
-			const contentNoPref = message.content.replace(this.regPrefix, "");
-			const cmd = contentNoPref.match(/^\w+/gi)[0].toLowerCase();
-			const contentNoCmd = contentNoPref.replace(/^\w+\s*/gi,"");
-			const subargs = contentNoCmd.match(/\w+/gi)
-			if (this.commands[cmd]) {
-				this.commands[cmd].executor({
-					"channelId":channelId,
-					"message": message,
-					"cmd": cmd,
-					"contentNoCmd": contentNoCmd,
-					"subargs": subargs,
-					"that": this})
-			} else {
-				console.log("thats not a valid command")
-			}
+			this.commands.send.reply(channelId, message.id, "thats not a valid command. use " + this.prefix + "help to see a list of available commands.")
 		}
 	}
 
