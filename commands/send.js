@@ -3,15 +3,10 @@ const _sendMessage = getModule(["_sendMessage"], false)._sendMessage;
 const getChannel = getModule(["getChannel"], false).getChannel;
 
 module.exports = {
-
 	executor (main) {
-		_sendMessage(main.channelId, {
-			content: main.contentNoCmd,
-			tts: false,
-			invalidEmojis: [],
-			validNonShortcutEmojis: []
-		},{})
+		main.ezreply(main.contentNoCmd)
 	},
+
 	message (channel,content) {
 		_sendMessage(
 			channel,{
@@ -21,6 +16,7 @@ module.exports = {
 				validNonShortcutEmojis: []
 			},{})
 	},
+
 	reply (channel, msgid, content) {
 		_sendMessage(
 			channel,{
@@ -39,5 +35,7 @@ module.exports = {
 			}
 		}
 		)
-	}
+	},
+
+	"about": "Repeats after you.\nUsage: <prefix>send <what to send>"
 }

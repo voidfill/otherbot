@@ -21,5 +21,7 @@ module.exports = {
                 "finished reloading."
             )
         }
-    }
+    },
+
+    "about": "Reloads the client."
 }
