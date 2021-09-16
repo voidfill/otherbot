@@ -7,6 +7,7 @@ module.exports = class OtherBot extends Plugin {
 	constructor() {
 		super();
 		this.handleMessage = this.handleMessage.bind(this);
+		this.handleDeletion = this.handleDeletion.bind(this);
 		this.commands = require("./commands");
 		this.allowedUsers = new Set(this.settings.get("allowedUsers"));
 		this.prefix = this.settings.get("prefix");
@@ -14,6 +15,8 @@ module.exports = class OtherBot extends Plugin {
 		this.reloadState = this.settings.get("reloadState");
 		this.botUser = getModule(["getCurrentUser"], false).getCurrentUser();
 		this.guilds = getModule(["getGuilds"], false).getGuilds();
+		this.messageCache = {}
+		this.deletedCache = {}
 	}
 
 	async startPlugin() {
@@ -23,11 +26,15 @@ module.exports = class OtherBot extends Plugin {
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_CREATE", this.handleMessage);
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_DELETE", this.handleDeletion);
 		this.commands.reload.startup.call(this)
-		console.log(this.handleMessage.commons)
 	}
 
 	async handleMessage({ channelId, message }) {
-		if (!this.allowedUsers.has(message.author.id) || !this.regPrefix.exec(message.content)) {
+		if (!this.messageCache[channelId]) {
+			this.messageCache[channelId] = {};
+		}
+		this.messageCache[channelId][message.id] = message
+
+		if (!this.allowedUsers.has(message.author.id) || !this.regPrefix.exec(message.content) || message.content.length == 1) {
 			return
 		}
 		const contentNoPref = message.content.replace(this.regPrefix, "");
@@ -48,12 +55,12 @@ module.exports = class OtherBot extends Plugin {
 		if (this.commands[cmd]) {
 			this.commands[cmd].executor.call(this, main)
 		} else {
-			commons.ezreply("thats not a valid command. use " + this.prefix + "help to see a list of available commands.")
+			main.ezreply("thats not a valid command. use " + this.prefix + "help to see a list of available commands.")
 		}
 	}
 
 	async handleDeletion (args) {
-		console.log(args)
+		this.deletedCache[args.channelId]= args.id;
 	}
 
 	pluginWillUnload() {

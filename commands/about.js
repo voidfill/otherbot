@@ -19,5 +19,9 @@ module.exports = {
 		)
 	},
 
+	getDate(snowflake) {
+		return Math.floor(new Date(snowflake / 4194304 + 1420070400000).getTime() / 1000)
+	},
+
 	"about": "Returns info about the bot."
 }
