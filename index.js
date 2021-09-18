@@ -34,7 +34,7 @@ module.exports = class OtherBot extends Plugin {
 		}
 		this.messageCache[channelId][message.id] = message
 
-		if (!this.allowedUsers.has(message.author.id) || !this.regPrefix.exec(message.content) || message.content.length == 1) {
+		if (!this.allowedUsers.has(message.author.id) || !this.regPrefix.exec(message.content) || message.content.length < 3) {
 			return
 		}
 		const contentNoPref = message.content.replace(this.regPrefix, "");
