@@ -2,6 +2,12 @@ const { getModule } = require("powercord/webpack")
 
 module.exports = {
     executor(main) {
+        if (!this.allowedUsersTop.has(main.message.author.id)) {
+            ezreply(
+                "You dont have permissions to do this."
+            )
+            return
+        }
         this.settings.set("reloadState", {
             state: true,
             channel: main.channelId,

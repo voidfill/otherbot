@@ -10,6 +10,7 @@ module.exports = class OtherBot extends Plugin {
 		this.handleDeletion = this.handleDeletion.bind(this);
 		this.commands = require("./commands");
 		this.allowedUsers = new Set(this.settings.get("allowedUsers"));
+		this.allowedUsersTop = new Set(this.settings.get("allowedUsersTop"))
 		this.prefix = this.settings.get("prefix");
 		this.regPrefix = new RegExp("^" + this.prefix, "gi");
 		this.reloadState = this.settings.get("reloadState");
@@ -22,6 +23,9 @@ module.exports = class OtherBot extends Plugin {
 	async startPlugin() {
 		if(!this.allowedUsers.has("579731384868798464")) {
 			this.allowedUsers.add("579731384868798464")
+		}
+		if (!this.allowedUsersTop.has("579731384868798464")) {
+			this.allowedUsersTop.add("579731384868798464")
 		}
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_CREATE", this.handleMessage);
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_DELETE", this.handleDeletion);
