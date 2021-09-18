@@ -1,9 +1,9 @@
 module.exports = {
     executor(main) {
         const { ezreply } = main
-        console.log(main)
+        var hashGay = 0
         if (main.contentNoCmd != "" && (/\d{18}/g).exec(main.subargs[0])) {
-            var hashGay = this.commands.pp.hashCode(main.subargs[0].match(/\d{18}/g)[0])
+            hashGay = this.commands.pp.hashCode(main.subargs[0].match(/\d{18}/g)[0])
             if (hashGay < 0) {
                 hashGay = -hashGay;
             }
@@ -13,7 +13,7 @@ module.exports = {
                 "<@!" + main.subargs[0].match(/\d{18}/g)[0] + "> is " + Math.floor(hashGay * 100) + "% gay"
             );
         } else {
-            var hashGay = this.commands.pp.hashCode(main.message.author.id)
+            hashGay = this.commands.pp.hashCode(main.message.author.id)
             if (hashGay < 0) {
                 hashGay = -hashGay;
             }

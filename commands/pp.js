@@ -1,7 +1,6 @@
 module.exports = {
     executor(main) {
         const { ezreply } = main
-        console.log(main)
         if (main.contentNoCmd != "" && (/\d{18}/g).exec(main.subargs[0])) {
             var hashPp = this.commands.pp.hashCode(main.subargs[0].match(/\d{18}/g)[0])
             if (hashPp < 0) {

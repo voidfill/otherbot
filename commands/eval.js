@@ -18,7 +18,7 @@ module.exports = {
                     .replace(/\\n\s*/g, " ")
             )
         } finally {
-
+            console.log("Evaluated " + main.contentNoCmd)
         }
     },
 

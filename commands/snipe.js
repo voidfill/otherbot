@@ -8,7 +8,6 @@ module.exports = {
             ezreply("Theres nothing to snipe.")
             return
         }
-        console.log(main.that.commands.about.getDate);
         const deletedMessage = this.messageCache[main.channelId][this.deletedCache[main.channelId]]
         ezreply (
             "From: " + deletedMessage.author.username + "#" + deletedMessage.author.discriminator +
