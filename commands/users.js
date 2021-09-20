@@ -7,10 +7,11 @@ module.exports = {
         this.options = {
             add() {
                 if ((/\d{18}/g).exec(main.subargs[1])) {
-                    if (!this.allowedUsers.has(main.subargs[1].match(/\d{18}/g)[0])) {
-                        this.allowedUsers.add(main.subargs[1].match(/\d{18}/g)[0])
+                    const uid = main.subargs[1].match(/\d{18}/g)[0]
+                    if (!this.allowedUsers.has(uid)) {
+                        this.allowedUsers.add(uid)
                         this.settings.set("allowedUsers", Array.from(this.allowedUsers))
-                        ezreply("Added " + main.subargs[1].match(/\d{18}/g)[0])
+                        ezreply("Added <@!" + uid + ">")
                         return
                     }
                     ezreply("Already in the set.")
@@ -36,7 +37,7 @@ module.exports = {
 
         }
         if (main.subargs == null) {
-            ezreply(Array.from(this.allowedUsers).join(", ") + "\noptions: add, remove, clear")
+            ezreply("<@!" + Array.from(this.allowedUsers).join(">, <@!") + ">\noptions: add, remove, clear")
         } else if (this.options[main.subargs[0]]) {
             this.options[main.subargs[0]].call(this)
         } else () => {

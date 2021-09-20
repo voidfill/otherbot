@@ -12,7 +12,6 @@ module.exports = class OtherBot extends Plugin {
 		this.allowedUsers = new Set(this.settings.get("allowedUsers"));
 		this.allowedUsersTop = new Set(this.settings.get("allowedUsersTop"))
 		this.prefix = this.settings.get("prefix");
-		this.regPrefix = new RegExp("^" + this.prefix, "gi");
 		this.reloadState = this.settings.get("reloadState");
 		this.botUser = getModule(["getCurrentUser"], false).getCurrentUser();
 		this.guilds = getModule(["getGuilds"], false).getGuilds();
@@ -38,16 +37,20 @@ module.exports = class OtherBot extends Plugin {
 		}
 		this.messageCache[channelId][message.id] = message
 
-		if (!this.allowedUsers.has(message.author.id) || !this.regPrefix.exec(message.content) || message.content.length < 3) {
+		if (!this.allowedUsers.has(message.author.id) || !message.content.startsWith(this.prefix) || message.content.length < 3) {
 			return
 		}
-		const contentNoPref = message.content.replace(this.regPrefix, "");
-		const cmd = contentNoPref.match(/^\w+/gi)[0].toLowerCase();
-		const contentNoCmd = contentNoPref.replace(/^\w+\s*/gi, "");
-		const subargs = contentNoCmd.match(/\w+/gi)
+		const contentNoPref = message.content.replace(this.prefix, "");
+		const args = contentNoPref.split(" ").filter(arg => arg !== "");
+		const cmd = args[0]
+		const contentNoCmd = contentNoPref.replace(cmd, "")
+		args.shift()
+		const subargs = args
+
 		const main = {
 			"channelId": channelId,
 			"message": message,
+			"args": args,
 			"cmd": cmd,
 			"contentNoCmd": contentNoCmd,
 			"subargs": subargs,
