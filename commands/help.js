@@ -1,7 +1,8 @@
 module.exports = {
 	async executor(main) {
+		console.log(main)
 		const { ezreply } = main
-		if (main.subargs == null) {
+		if (main.subargs.length == 0) {
 			ezreply(
 				"Available commands: " + Object.getOwnPropertyNames(this.commands).join(", ") +"\nRun " + this.prefix +"help <command> to get more info about a particular command."
 			)

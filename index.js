@@ -37,20 +37,19 @@ module.exports = class OtherBot extends Plugin {
 		}
 		this.messageCache[channelId][message.id] = message
 
-		if (!this.allowedUsers.has(message.author.id) || !message.content.startsWith(this.prefix) || message.content.length < 3) {
+		if (!this.allowedUsers.has(message.author.id) || !message.content.toLowerCase().startsWith(this.prefix) || message.content.length < 3) {
 			return
 		}
-		const contentNoPref = message.content.replace(this.prefix, "");
+		const contentNoPref = message.content.substr(this.prefix.length);
 		const args = contentNoPref.split(" ").filter(arg => arg !== "");
-		const cmd = args[0]
-		const contentNoCmd = contentNoPref.replace(cmd, "")
+		const cmd = args[0].toLowerCase()
+		const contentNoCmd = contentNoPref.replace(args[0], "")
 		args.shift()
 		const subargs = args
 
 		const main = {
 			"channelId": channelId,
 			"message": message,
-			"args": args,
 			"cmd": cmd,
 			"contentNoCmd": contentNoCmd,
 			"subargs": subargs,
@@ -59,10 +58,11 @@ module.exports = class OtherBot extends Plugin {
 				this.commands.send.reply(channelId, message.id, toSend)
 			}
 		}
+		console.log(main)
 		if (this.commands[cmd]) {
 			this.commands[cmd].executor.call(this, main)
 		} else {
-			main.ezreply("thats not a valid command. use " + this.prefix + "help to see a list of available commands.")
+			main.ezreply("Thats not a valid command. Use " + this.prefix + "help to see a list of available commands.")
 		}
 	}
 
