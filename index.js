@@ -58,7 +58,6 @@ module.exports = class OtherBot extends Plugin {
 				this.commands.send.reply(channelId, message.id, toSend)
 			}
 		}
-		console.log(main)
 		if (this.commands[cmd]) {
 			this.commands[cmd].executor.call(this, main)
 		} else {

@@ -4,6 +4,7 @@ const { message } = require("./send")
 module.exports = {
     async executor(main) {
         const { ezreply } = main
+        console.log(main)
         this.options = {
             add() {
                 if ((/\d{18}/g).exec(main.subargs[1])) {
@@ -36,13 +37,12 @@ module.exports = {
             }
 
         }
-        if (main.subargs == null) {
-            ezreply("<@!" + Array.from(this.allowedUsers).join(">, <@!") + ">\noptions: add, remove, clear")
-        } else if (this.options[main.subargs[0]]) {
+        if (this.options[main.subargs[0]]) {
             this.options[main.subargs[0]].call(this)
-        } else () => {
-            ezreply("Invalid option.")
+            return
         }
+        ezreply("<@!" + Array.from(this.allowedUsers).join(">, <@!") + ">\noptions: add, remove, clear")
+
     },
 
     "about": "Returns all current allowed botusers.\nSubcommands: add, remove, clear\nUsage: <prefix>users <subcommand> <userid or mention>"

@@ -5,7 +5,7 @@ const { getModule } = require("powercord/webpack")
 module.exports = {
 	async executor(main) {
 		const { ezreply } = main;
-		if (main.subargs === null) {
+		if (main.subargs.length == 0) {
 			main.subargs = ["nl"];
 			this.commands.help.executor.call(this, main)
 			return
