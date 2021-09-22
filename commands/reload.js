@@ -3,7 +3,7 @@ const { getModule } = require("powercord/webpack")
 module.exports = {
     executor(main) {
         if (!this.allowedUsersTop.has(main.message.author.id)) {
-            ezreply(
+            main.ezreply(
                 "You dont have permissions to do this."
             )
             return

@@ -12,9 +12,8 @@ module.exports = {
             this.commands.help.executor.call(this, main)
             return
         }
-        this.prefix = main.contentNoCmd.replace(/^\s*/g, "")
-        this.regPrefix = new RegExp("^" + this.prefix, "gi");
-        this.settings.set("prefix", main.contentNoCmd)
+        this.prefix = main.contentNoCmd.replace(/^\s+/, "")
+        this.settings.set("prefix", main.contentNoCmd.replace(/^\s+/, ""))
         ezreply("set prefix to " + this.prefix)
     },
 
