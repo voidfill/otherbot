@@ -1,10 +1,10 @@
-const { getModule } = require("powercord/webpack")
-const { message } = require("./send")
-
 module.exports = {
     async executor(main) {
         const { ezreply } = main
-        console.log(main)
+        if (!this.allowedUsersTop.has(main.message.author.id)) {
+            ezreply("You dont have permissions to do this.")
+            return
+        }
         this.options = {
             add() {
                 if ((/\d{18}/g).exec(main.subargs[1])) {
@@ -29,7 +29,9 @@ module.exports = {
                 ezreply("lol no")
             },
             remove() {
-                if ((/\d{18}/g).exec(main.subargs[1]) && this.allowedUsers.delete(main.subargs[1].match(/\d{18}/g)[0])) {
+                if ((/\d{18}/g).exec(main.subargs[1])) {
+                    this.allowedUsers.delete(main.subargs[1].match(/\d{18}/g)[0])
+                    this.settings.set("allowedUsers", Array.from(this.allowedUsers))
                     ezreply("Removed " + main.subargs[1].match(/\d{18}/g)[0])
                     return
                 }

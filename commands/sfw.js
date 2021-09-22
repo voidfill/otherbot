@@ -3,6 +3,7 @@ const neko = new nekoslife()
 const { getModule } = require("powercord/webpack")
 const sfwModules = new Set(Object.keys(neko.sfw))
 const inputRequired = new Set(["owoify", "spoiler"])
+
 module.exports = {
 	async executor(main) {
 		const { ezreply } = main;
@@ -17,7 +18,6 @@ module.exports = {
 			if (!inputRequired.has(main.subargs[0])) {
 				ezreply(
 					Object.values(await neko.sfw[main.subargs[0].toLowerCase()]())[0]
-
 				)
 				return
 			}

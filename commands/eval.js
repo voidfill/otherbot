@@ -17,6 +17,7 @@ module.exports = {
             const commands = this.commands
             eval(main.contentNoCmd)
         } catch (err) {
+            console.log(err)
             ezreply (
                 JSON.stringify(err, Object.getOwnPropertyNames(err))
                     .match(/^[^\n]{1,150}/)[0]

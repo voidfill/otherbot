@@ -4,6 +4,12 @@ const getChannel = getModule(["getChannel"], false).getChannel;
 
 module.exports = {
 	executor (main) {
+		if(main.contentNoCmd == ""){
+			main.ezreply(
+				"Not sending an empty message dummy."
+			)
+			return
+		}
 		main.ezreply(main.contentNoCmd)
 	},
 
