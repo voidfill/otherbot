@@ -3,6 +3,8 @@ const neko = new nekoslife()
 const { getModule } = require("powercord/webpack")
 const sfwModules = new Set(Object.keys(neko.sfw))
 const inputRequired = new Set(["owoify", "spoiler"])
+const isntSfw = new Set(["wallpaper","holo"])
+const getChannel = getModule(["getChannel"], false)
 
 module.exports = {
 	async executor(main) {
@@ -11,6 +13,13 @@ module.exports = {
 			ezreply(
 				"That subcommand doesnt exist. Heres a full list:\n"
 				+ Array.from(sfwModules).join(", ")
+			)
+			return
+		}
+		const channel = getChannel.getChannel(main.channelId)
+		if (isntSfw.has(main.subargs[0].toLowerCase()) && channel.nsfw == false) {
+			ezreply(
+				"This command isnt actually sfw so its restricted to nsfw channels. Blame nekos.life, not me."
 			)
 			return
 		}
