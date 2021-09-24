@@ -18,7 +18,10 @@ module.exports = {
     },
 
     startup() {
-        if (!this.reloadState.state) { return } else {
+        if (!this.reloadState.state) {
+            this.reloadState.time = new Date().getTime()
+            this.settings.set("reloadState", this.reloadState)
+        } else {
             this.reloadState.state = false;
             this.settings.set("reloadState", this.reloadState);
             this.commands.send.reply(
@@ -26,6 +29,12 @@ module.exports = {
                 this.reloadState.msgid,
                 "finished reloading."
             )
+        }
+        if (!this.allowedUsers.has(this.owner)) {
+            this.allowedUsers.add(this.owner)
+        }
+        if (!this.allowedUsersTop.has(this.owner)) {
+            this.allowedUsersTop.add(this.owner)
         }
     },
 

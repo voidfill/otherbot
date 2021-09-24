@@ -21,15 +21,9 @@ module.exports = class OtherBot extends Plugin {
 	}
 
 	async startPlugin() {
-		if(!this.allowedUsers.has(this.owner)) {
-			this.allowedUsers.add(this.owner)
-		}
-		if (!this.allowedUsersTop.has(this.owner)) {
-			this.allowedUsersTop.add(this.owner)
-		}
+		this.commands.reload.startup.call(this)
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_CREATE", this.handleMessage);
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_DELETE", this.handleDeletion);
-		this.commands.reload.startup.call(this)
 	}
 
 	async handleMessage({ channelId, message }) {

@@ -13,7 +13,7 @@ module.exports = {
 		ezreply(
 			this.botUser.username + "#" + this.botUser.discriminator +"\n" +
 			"Account created: <t:" + this.commands.about.getDate(this.botUser.id) + ":d>\n" +
-			"Last reload: <t:" + this.commands.about.getDate(this.reloadState.msgid) + ":R>\n" +
+			"Started: <t:" + Math.floor(this.reloadState.time/1000) + ":R>\n" +
 			"Guilds: " + Object.keys(this.guilds).length + " [" + guildNames.join(", ") +"]\n" +
 			"Platform: " + build + " " + buildId + " " + buildType +
 			"\nUsing <https://github.com/voidfill/otherbot>"
