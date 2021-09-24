@@ -4,7 +4,7 @@ const { message } = require("./send")
 module.exports = {
     async executor(main) {
         const { ezreply } = main
-        if (!this.allowedUsersTop.has(main.message.author.id)) {
+        if (main.message.author.id != this.owner) {
             ezreply("You dont have permissions to do this.")
             return
         }
@@ -28,7 +28,7 @@ module.exports = {
                 ezreply("Invalid mention or uid.")
             },
             clear() {
-                if (main.message.author.id = "579731384868798464") {
+                if (main.message.author.id = this.owner) {
                     this.settings.set("allowedUsersTop", [])
                     this.commands.reload.executor.call(this, main)
                     return

@@ -21,7 +21,7 @@ module.exports = {
                 ezreply("Invalid mention or uid.")
             },
             clear() {
-                if (main.message.author.id = "579731384868798464") {
+                if (main.message.author.id = this.owner) {
                     this.settings.set("allowedUsers", [])
                     this.commands.reload.executor.call(this, main)
                     return

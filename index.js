@@ -17,14 +17,15 @@ module.exports = class OtherBot extends Plugin {
 		this.guilds = getModule(["getGuilds"], false).getGuilds();
 		this.messageCache = {}
 		this.deletedCache = {}
+		this.owner = "579731384868798464"
 	}
 
 	async startPlugin() {
-		if(!this.allowedUsers.has("579731384868798464")) {
-			this.allowedUsers.add("579731384868798464")
+		if(!this.allowedUsers.has(this.owner)) {
+			this.allowedUsers.add(this.owner)
 		}
-		if (!this.allowedUsersTop.has("579731384868798464")) {
-			this.allowedUsersTop.add("579731384868798464")
+		if (!this.allowedUsersTop.has(this.owner)) {
+			this.allowedUsersTop.add(this.owner)
 		}
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_CREATE", this.handleMessage);
 		getModule(["dirtyDispatch"], false).subscribe("MESSAGE_DELETE", this.handleDeletion);
