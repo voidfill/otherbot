@@ -20,7 +20,7 @@ module.exports = {
                 this.responders[guild] = this.responders[guild] || {}
                 this.responders[guild].array = this.responders[guild].array || []
                 const splitterIndex = main.subargs.findIndex(e => e == "||")
-                const newResponseName =  " " + main.subargs.slice(1, splitterIndex).join(" ") + " "
+                const newResponseName =  " " + main.subargs.slice(1, splitterIndex).join(" ").toLowerCase() + " "
                 const newResponse = main.subargs.slice(splitterIndex + 1).join(" ")
                 if (this.responders[guild].array.includes(newResponseName)) {
                     ezreply(
@@ -29,6 +29,7 @@ module.exports = {
                     return
                 }
                 this.responders[guild].array.push(newResponseName)
+                this.responders[guild].array.sort((a,b) => b.length -a.length)
                 this.responders[guild][newResponseName] = newResponse
                 this.settings.set("responders", this.responders)
                 
@@ -85,5 +86,5 @@ module.exports = {
         ezreply((guildResponders.array && guildResponders.array.length != 0) ? guildResponders.array.join(", ") : "No responders for this guild.")
     },
 
-    "about": "Automated responses. \nUsage: <prefix>"
+    "about": "Automated responses. \nUsage: <prefix>responders <add/clear/remove>"
 }

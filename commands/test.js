@@ -5,7 +5,7 @@ module.exports = {
         const { ezreply } = main
         if(main.message.author.id != this.owner) { return }
         if(-1) {
-            console.log("cum")
+            console.log(getModule(["addReaction"], false).addReaction)
         }
     },
     

@@ -64,7 +64,7 @@ module.exports = class OtherBot extends Plugin {
 		const guildResponders = this.responders[getChannel(channelId).guild_id]
 		if (!guildResponders) { return }
 		const guildRespondersArray = guildResponders.array
-		const contentNew = " " + message.content.split(" ").filter(arg => arg !== "").join(" ") + " "
+		const contentNew = " " + message.content.toLowerCase().split(" ").filter(arg => arg !== "").join(" ") + " "
 		const responderindex = guildRespondersArray.findIndex(e => contentNew.includes(e))
 		if (responderindex != -1) {
 			this.commands.send.reply(channelId, message.id, guildResponders[guildRespondersArray[responderindex]])
