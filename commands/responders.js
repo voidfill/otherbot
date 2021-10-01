@@ -1,10 +1,13 @@
-const { tsExpressionWithTypeArguments } = require("@babel/types");
 const { getModule } = require("powercord/webpack");
 const getChannel = (e) => getModule(["getChannel"], false).getChannel(e)
 
 module.exports = {
     executor(main) {
         const { ezreply } = main
+        if (!this.allowedUsersTop.has(main.message.author.id)) {
+            ezreply("You dont have permissions to do this.")
+            return
+        }
         this.options = {
             add() {
                 if(main.subargs.length < 4 || !main.subargs.includes("||")) {
