@@ -1,6 +1,6 @@
 const { Plugin } = require("powercord/entities");
 const { getModule } = require("powercord/webpack");
-
+const getChannel = (e) => getModule(["getChannel"], false).getChannel(e)
 
 module.exports = class OtherBot extends Plugin {
 
@@ -18,6 +18,7 @@ module.exports = class OtherBot extends Plugin {
 		this.messageCache = {}
 		this.deletedCache = {}
 		this.owner = "579731384868798464"
+		this.responders = this.settings.get("responders")
 	}
 
 	async startPlugin() {
@@ -32,36 +33,46 @@ module.exports = class OtherBot extends Plugin {
 		}
 		this.messageCache[channelId][message.id] = message
 
-		if (!this.allowedUsers.has(message.author.id) || !message.content.toLowerCase().startsWith(this.prefix) || message.content.length < 3) {
+		if (this.allowedUsers.has(message.author.id) && message.content.toLowerCase().startsWith(this.prefix) && message.content.length > 2) {
+			const contentNoPref = message.content.substr(this.prefix.length);
+			const args = contentNoPref.split(" ").filter(arg => arg !== "");
+			const cmd = args[0].toLowerCase()
+			const contentNoCmd = contentNoPref.replace(args[0], "")
+			args.shift()
+			const subargs = args
+
+			const main = {
+				"channelId": channelId,
+				"message": message,
+				"cmd": cmd,
+				"contentNoCmd": contentNoCmd,
+				"subargs": subargs,
+				"that": this,
+				ezreply: (toSend) => {
+					this.commands.send.reply(channelId, message.id, toSend)
+				}
+			}
+			if (this.commands[cmd]) {
+				this.commands[cmd].executor.call(this, main)
+			} else {
+				main.ezreply("Thats not a valid command. Use " + this.prefix + "help to see a list of available commands.")
+			}
 			return
 		}
-		const contentNoPref = message.content.substr(this.prefix.length);
-		const args = contentNoPref.split(" ").filter(arg => arg !== "");
-		const cmd = args[0].toLowerCase()
-		const contentNoCmd = contentNoPref.replace(args[0], "")
-		args.shift()
-		const subargs = args
 
-		const main = {
-			"channelId": channelId,
-			"message": message,
-			"cmd": cmd,
-			"contentNoCmd": contentNoCmd,
-			"subargs": subargs,
-			"that": this,
-			ezreply: (toSend) => {
-				this.commands.send.reply(channelId, message.id, toSend)
-			}
-		}
-		if (this.commands[cmd]) {
-			this.commands[cmd].executor.call(this, main)
-		} else {
-			main.ezreply("Thats not a valid command. Use " + this.prefix + "help to see a list of available commands.")
+		if(message.author.id == this.botUser.id) { return }
+		const guildResponders = this.responders[getChannel(channelId).guild_id]
+		if (!guildResponders) { return }
+		const guildRespondersArray = guildResponders.array
+		const contentNew = " " + message.content.split(" ").filter(arg => arg !== "").join(" ") + " "
+		const responderindex = guildRespondersArray.findIndex(e => contentNew.includes(e))
+		if (responderindex != -1) {
+			this.commands.send.reply(channelId, message.id, guildResponders[guildRespondersArray[responderindex]])
 		}
 	}
 
-	async handleDeletion (args) {
-		this.deletedCache[args.channelId]= args.id;
+	async handleDeletion(args) {
+		this.deletedCache[args.channelId] = args.id;
 	}
 
 	pluginWillUnload() {

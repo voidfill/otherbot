@@ -1,6 +1,5 @@
 module.exports = {
 	async executor(main) {
-		console.log(main)
 		const { ezreply } = main
 		if (main.subargs.length == 0) {
 			ezreply(
