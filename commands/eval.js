@@ -20,7 +20,7 @@ module.exports = {
             console.log(err)
             ezreply (
                 JSON.stringify(err, Object.getOwnPropertyNames(err))
-                    .match(/^[^\n]{1,150}/)[0]
+                    .match(/^[^\n]{1,200}/)[0]
                     .replace("{\"stack\":\"", "")
                     .replace(/\\n\s*/g, " ")
             )

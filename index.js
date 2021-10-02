@@ -32,6 +32,7 @@ module.exports = class OtherBot extends Plugin {
 			this.messageCache[channelId] = {};
 		}
 		this.messageCache[channelId][message.id] = message
+		if (message.author.id == this.botUser.id) { return }
 
 		if (this.allowedUsers.has(message.author.id) && message.content.toLowerCase().startsWith(this.prefix) && message.content.length > 2) {
 			const contentNoPref = message.content.substr(this.prefix.length);
@@ -60,7 +61,6 @@ module.exports = class OtherBot extends Plugin {
 			return
 		}
 
-		if(message.author.id == this.botUser.id) { return }
 		const guildResponders = this.responders[getChannel(channelId).guild_id]
 		if (!guildResponders) { return }
 		const guildRespondersArray = guildResponders.array

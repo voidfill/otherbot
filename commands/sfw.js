@@ -17,7 +17,7 @@ module.exports = {
 			return
 		}
 		const channel = getChannel.getChannel(main.channelId)
-		if (isntSfw.has(main.subargs[0].toLowerCase()) && channel.nsfw == false) {
+		if (isntSfw.has(main.subargs[0].toLowerCase()) && channel.nsfw == false && channel.guild_id != null) {
 			ezreply(
 				"This command isnt actually sfw so its restricted to nsfw channels. Blame nekos.life, not me."
 			)

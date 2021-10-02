@@ -18,8 +18,8 @@ module.exports = {
     },
 
     startup() {
+        this.reloadState.time = new Date().getTime()
         if (!this.reloadState.state) {
-            this.reloadState.time = new Date().getTime()
             this.settings.set("reloadState", this.reloadState)
         } else {
             this.reloadState.state = false;

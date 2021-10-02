@@ -7,7 +7,7 @@ module.exports = {
 	async executor(main) {
 		const { ezreply } = main
 		const channel = getModule(["getChannel"], false).getChannel(main.channelId)
-		if (channel.nsfw == false) {
+		if (channel.nsfw == false && channel.guild_id != null) {
 			ezreply(
 				"You cant use NSFW commands in SFW channels."
 			)
