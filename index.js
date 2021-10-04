@@ -2,6 +2,7 @@ const { Plugin } = require("powercord/entities");
 const { getModule } = require("powercord/webpack");
 const getChannel = (e) => getModule(["getChannel"], false).getChannel(e)
 
+
 module.exports = class OtherBot extends Plugin {
 
 	constructor() {
@@ -34,29 +35,28 @@ module.exports = class OtherBot extends Plugin {
 		this.messageCache[channelId][message.id] = message
 		if (message.author.id == this.botUser.id) { return }
 
-		if (this.allowedUsers.has(message.author.id) && message.content.toLowerCase().startsWith(this.prefix) && message.content.length > 2) {
+		if (this.allowedUsers.has(message.author.id) && message.content.toLowerCase().startsWith(this.prefix.toLowerCase()) && message.content.length > 2) {
 			const contentNoPref = message.content.substr(this.prefix.length);
 			const args = contentNoPref.split(" ").filter(arg => arg !== "");
 			const cmd = args[0].toLowerCase()
-			const contentNoCmd = contentNoPref.replace(args[0], "")
-			args.shift()
-			const subargs = args
 
-			const main = {
-				"channelId": channelId,
-				"message": message,
-				"cmd": cmd,
-				"contentNoCmd": contentNoCmd,
-				"subargs": subargs,
-				"that": this,
-				ezreply: (toSend) => {
-					this.commands.send.reply(channelId, message.id, toSend)
-				}
-			}
 			if (this.commands[cmd]) {
+				const contentNoCmd = contentNoPref.replace(args[0], "")
+				args.shift()
+				const subargs = args
+
+				const main = {
+					"channelId": channelId,
+					"message": message,
+					"cmd": cmd,
+					"contentNoCmd": contentNoCmd,
+					"subargs": subargs,
+					"that": this,
+					ezreply: (toSend) => {
+						this.commands.send.reply(channelId, message.id, toSend)
+					}
+				}
 				this.commands[cmd].executor.call(this, main)
-			} else {
-				main.ezreply("Thats not a valid command. Use " + this.prefix + "help to see a list of available commands.")
 			}
 			return
 		}
