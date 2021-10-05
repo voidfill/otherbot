@@ -44,7 +44,7 @@ module.exports = class Embed {
             width: width
         }
     }
-    setAuthor(name, url = "", icon_url = "",proxy_icon_url = "") {
+    setAuthor(name, url = "", icon_url = "", proxy_icon_url = "") {
         this.author = {
             name: name,
             url: url,
