@@ -22,6 +22,10 @@ module.exports = {
 			"message": {
 				"channelId": channel,
 				"content": content,
+				"allowed_mentions": {
+					"parse": [],
+					"replied_user": false
+				},
 				"tts": false,
 				"nonce": fromTimestamp(Date.now()),
 				"message_reference": {
