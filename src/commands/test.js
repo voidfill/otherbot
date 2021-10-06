@@ -1,6 +1,21 @@
+const Embed = require("../utils/structures/embed")
+
 module.exports = {
-    executor(args) {
-        console.log(args)
+    "default": {
+        executor({ channelId}) {
+            const e = new Embed();
+            e.setTitle("hi")
+            e.setDescription("uwu")
+            e.send(channelId)
+        },
+        "about": "sexo"
     },
-    "about": "yes"
+
+    "help": {
+        executor(e) {
+            sendEmbed()
+        },
+        "restricted": true,
+        "about": "helpppp"
+    }
 }
