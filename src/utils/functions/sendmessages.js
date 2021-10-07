@@ -1,5 +1,4 @@
 const { getAllModules, getModule } = require("powercord/webpack");
-const getChannel = getModule(["getChannel"], false).getChannel;
 const messageQueue = getAllModules(arg => arg.enqueue)[0]
 
 const Message = require("../structures/message");
@@ -17,9 +16,19 @@ function queue(message) {
 }
 
 module.exports = {
-    sendEmbed(channel_id, embed) {
+    sendEmbed(channel_id, embed, message_id = false) {
         queue(
-            new Message(channel_id, "", embed)
+            new Message(channel_id, "", embed, message_id)
         )
+    },
+
+    sendContent(channel_id, content, message_id = false) {
+        queue(
+            new Message(channel_id, content, false, message_id)
+        )
+    },
+
+    sendAny(message) {
+        queue(message)
     }
 }

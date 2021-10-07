@@ -3,7 +3,7 @@ const { fromTimestamp } = getModule(["fromTimestamp"], false);
 const { getChannel } = getModule(["getChannel"], false);
 
 module.exports = class Message {
-    constructor(channelId, content = "", embed = false, tts = false, allowed_mentions = false, message_id = false) {
+    constructor(channelId, content = "", embed = false, message_id = false, tts = false, allowed_mentions = false) {
         this.channelId = channelId;
         this.content = content;
         this.tts = tts;

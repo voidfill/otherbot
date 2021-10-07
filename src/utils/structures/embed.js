@@ -1,12 +1,15 @@
 const { sendEmbed } = require("../functions/sendmessages")
 
 module.exports = class Embed {
-    constructor(type = "rich") {
+    constructor(timestamp = true, type = "rich") {
         this.type = type;
+        if(timestamp) {
+            this.setTimestamp(new Date(Date.now()).toISOString())
+        }
     }
 
-    send(channelId) {
-        sendEmbed(channelId, this);
+    send(channelId, message_id = false) {
+        sendEmbed(channelId, this, message_id);
     }
 
     setTitle(title) {
