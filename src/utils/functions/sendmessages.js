@@ -3,7 +3,7 @@ const messageQueue = getAllModules(arg => arg.enqueue)[0]
 
 const Message = require("../structures/message");
 
-function queue(message) {
+async function queue(message) {
     messageQueue.enqueue(
         {
             "type": 0,

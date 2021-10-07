@@ -1,5 +1,6 @@
 const Embed = require("../utils/structures/embed")
 const { sendContent } = require("../utils/functions/sendmessages")
+const { softReload } = require("../utils/functions/commons")
 
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
     "hard": {
         executor({ channelId, message }) {
 
-                sendContent(channelId, "test")
+                softReload()
             
         },
         "restricted": true

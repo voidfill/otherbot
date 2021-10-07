@@ -6,6 +6,10 @@ const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powerco
 module.exports = {
     "default": {
         executor({ channelId, author, args }) {
+            let e = new Embed()
+            e.setAuthor(author.username + author.discriminator, "", getAvatar(author.id, author.avatar))
+            e.setTitle("Help menu")
+
             if (args.length != 0 && commands[args[0]]) {
                 let alt = "default"
                 if (commands[args[0]][args[1]]) {
@@ -13,9 +17,6 @@ module.exports = {
                 }
                 const command = commands[args[0]][alt]
 
-                let e = new Embed()
-                e.setAuthor(author.username + author.discriminator, "", getAvatar(author.id, author.avatar))
-                e.setTitle("Help menu")
                 e.addField("Command info:", command.about || "unset")
                 e.addField("Syntax:", command.syntax || "unset")
                 e.addField("Restricted:", command.restricted ? "true": "false", true)
@@ -30,16 +31,14 @@ module.exports = {
                 return
             }
 
-            let e = new Embed()
-            e.setAuthor(author.username + author.discriminator, "", getAvatar(author.id, author.avatar))
-            e.setTitle("Help menu")
             e.addField("Available commands:", Object.keys(commands).join(", "))
+            e.setDescription("Run " + prefix + "help [command] to get more info about a particular command.")
 
             e.send(channelId)
             return
         },
 
-        "about": "Help command.",
+        "about": "Help command, get all commands and info about each one.",
         "syntax": prefix + "help [optional command]"
     }
 }
