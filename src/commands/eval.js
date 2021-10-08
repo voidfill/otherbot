@@ -1,4 +1,4 @@
-
+const { sendContent } = require("../utils/functions/sendmessages")
 
 module.exports = {
     "default": {

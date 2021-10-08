@@ -1,7 +1,7 @@
 const { Plugin } = require("powercord/entities");
 const { getModule } = require("powercord/webpack");
 const Dispatch = getModule(["dirtyDispatch"], false)
-const { onMessage } = require("./src/events")
+const { onMessage, onReactionAdd } = require("./src/events")
 const settings = require("./src/utils/functions/settings")
 module.exports = class OtherBot extends Plugin {
 
@@ -14,11 +14,13 @@ module.exports = class OtherBot extends Plugin {
     }
 
     async startPlugin () {
-        Dispatch.subscribe("MESSAGE_CREATE", onMessage)
+        Dispatch.subscribe("MESSAGE_CREATE", onMessage);
+        Dispatch.subscribe("MESSAGE_REACTION_ADD", onReactionAdd);
     }
 
     pluginWillUnload () {
-        Dispatch.unsubscribe("MESSAGE_CREATE", onMessage)
+        Dispatch.unsubscribe("MESSAGE_CREATE", onMessage);
+        Dispatch.unsubscribe("MESSAGE_REACTION_ADD", onReactionAdd);
     }
 
 };

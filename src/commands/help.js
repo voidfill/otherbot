@@ -19,7 +19,7 @@ module.exports = {
 
                 e.addField("Command info:", command.about || "unset")
                 e.addField("Syntax:", command.syntax || "unset")
-                e.addField("Restricted:", command.restricted ? "true": "false", true)
+                e.addField("Restricted:", command.restricted ? command.restricted || "true": "false", true)
 
                 let subs = Object.keys(commands[args[0]])
                 if (alt == "default" && subs.length > 1) {

@@ -1,8 +1,12 @@
 const { sendEmbed } = require("../functions/sendmessages")
+const { getAvatar } = require("../functions/commons")
 
 module.exports = class Embed {
-    constructor(timestamp = true, type = "rich") {
+    constructor(author = false, timestamp = true, type = "rich") {
         this.type = type;
+        if(author) {
+            this.setAuthor(author.username + author.discriminator, "", getAvatar(author.id, author.avatar))
+        }
         if(timestamp) {
             this.setTimestamp(new Date(Date.now()).toISOString())
         }
