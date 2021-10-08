@@ -21,7 +21,7 @@ module.exports = {
                 e.addField("Syntax:", command.syntax || "unset")
                 e.addField("Restricted:", command.restricted ? command.restricted || "true": "false", true)
 
-                let subs = Object.keys(commands[args[0]])
+                let subs = Object.keys(commands[args[0]]).filter(e => commands[args[0]][e].executor)
                 if (alt == "default" && subs.length > 1) {
                     subs.shift()
                     e.addField("Subcommands:", subs.join(", "), true)
