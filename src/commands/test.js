@@ -11,7 +11,7 @@ const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powerco
 module.exports = {
     "default": {
         executor({ channelId, message, author }) {
-
+            console.log(getModule(["SET_ACTIVITY"], false))
         },
         "restricted": true
     },

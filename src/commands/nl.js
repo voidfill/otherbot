@@ -44,7 +44,7 @@ module.exports = {
                     sendContent(channelId, text.cat, message.id)
                     return
                 }
-                const image = await neko.sfw[args]()
+                const image = await neko.sfw[args[0]]()
                 e.setImage(image.url)
                 e.setFooter("Provided by nekos.life api.")
                 e.send(channelId)
@@ -71,7 +71,7 @@ module.exports = {
 
             if (args.length > 0 && nsfwCommands.includes(args[0])) {
 
-                const image = await neko.nsfw[args]()
+                const image = await neko.nsfw[args[0]]()
                 e.setImage(image.url)
                 e.setFooter("Provided by nekos.life api.")
                 e.send(channelId)
