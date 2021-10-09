@@ -1,6 +1,10 @@
 const { sendEmbed } = require("../functions/sendmessages")
 const { getAvatar } = require("../functions/commons")
+const { getModule } = require("powercord/webpack")
+const { getMember } = getModule(["getMember"], false)
+const { getChannel } = getModule(["getChannel"], false)
 
+const { botUserId } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = class Embed {
     constructor(author = false, timestamp = true, type = "rich") {
         this.type = type;
@@ -10,9 +14,14 @@ module.exports = class Embed {
         if(timestamp) {
             this.setTimestamp(new Date(Date.now()).toISOString())
         }
+        this.color = false
     }
 
     send(channelId, message_id = false) {
+        if(!this.color) {
+            const guild = getChannel(channelId).guild_id
+            this.color = parseInt(getMember(guild, botUserId).colorString.slice(1) || "ffc9fe", 16)
+        }
         sendEmbed(channelId, this, message_id);
     }
 
