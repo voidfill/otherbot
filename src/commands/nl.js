@@ -24,7 +24,7 @@ module.exports = {
             e.send(channelId)
         },
 
-        "about": "nekos.life api.",
+        "about": "Nekos.life api.",
         "syntax": prefix + "nl [sfw/nsfw] [subcommand]",
         "restricted": false
     },
@@ -35,16 +35,22 @@ module.exports = {
                 sendContent(channelId, "This subcommand isnt 100% sfw so itll only work in nsfw channels. Blame nekos.life.", message.id)
                 return
             }
+
+            let e = new Embed(author)
+
             if (args.length > 0 && sfwCommands.includes(args[0])) {
-                let e = new Embed(author)
-                e.setTitle("Nekos.life")
+                if (args[0] == "cattext") {
+                    const text = await neko.sfw.cattext()
+                    sendContent(channelId, text.cat, message.id)
+                    return
+                }
                 const image = await neko.sfw[args]()
                 e.setImage(image.url)
+                e.setFooter("Provided by nekos.life api.")
                 e.send(channelId)
                 return
             }
-            let e = new Embed(author)
-            e.setTitle("Nekos.life")
+
             e.setDescription("That subcommand doesnt exist. Heres a full list:\n" + sfwCommands.join(", "))
             e.send(channelId)
         },
@@ -60,15 +66,18 @@ module.exports = {
                 sendContent(channelId, "You cant use nsfw commands in a sfw channel, smh.", message.id)
                 return
             }
+
+            let e = new Embed(author)
+
             if (args.length > 0 && nsfwCommands.includes(args[0])) {
-                let e = new Embed(author)
-                e.setTitle("Nekos.life")
+
                 const image = await neko.nsfw[args]()
                 e.setImage(image.url)
+                e.setFooter("Provided by nekos.life api.")
                 e.send(channelId)
                 return
             }
-            let e = new Embed(author)
+
             e.setTitle("Nekos.life")
             e.setDescription("That subcommand doesnt exist. Heres a full list:\n" + nsfwCommands.join(", "))
             e.send(channelId)
@@ -79,8 +88,8 @@ module.exports = {
         "restricted": false
     },
 
-    async getFromNeko(main, sub){
-        const e = await neko[main][sub]
-        return e.url
+    async getFromNeko(main, sub) {
+        const e = await neko[main][sub]()
+        return e.url ? e.url : e[Object.keys(e)[0]]
     }
 }

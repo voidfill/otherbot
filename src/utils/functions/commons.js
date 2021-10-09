@@ -19,6 +19,9 @@ module.exports = {
     },
 
     getUID(e) {
+        if (typeof e == "string") {
+            return e.match(uidReg)[0]
+        }
         if (e.length == 0) {
             return false
         }
