@@ -10,7 +10,6 @@ module.exports = class OtherBot extends Plugin {
         this.settings.set("botUserId", localStorage.getItem("user_id_cache").replace(/\"/g, ''))
         this.settings.set("entityID", this.entityID)
         settings.init(this)
-        this.settings.set("admins", [])
     }
 
     async startPlugin () {
