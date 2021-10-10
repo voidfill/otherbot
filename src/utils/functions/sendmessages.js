@@ -1,5 +1,6 @@
 const { getAllModules, getModule } = require("powercord/webpack");
 const messageQueue = getAllModules(arg => arg.enqueue)[0]
+const { upload } = getModule(["instantBatchUpload"], false)
 
 const Message = require("../structures/message");
 
@@ -30,5 +31,19 @@ module.exports = {
 
     sendAny(message) {
         queue(message)
+    },
+
+    sendFile(channel_id, file) {
+        upload(channel_id,
+            file,
+            0, {
+            "content": "",
+            "tts": false,
+            "invalidEmojis": [],
+            "validNonShortcutEmojis": []
+        },
+            false,
+            file.name
+        )
     }
 }
