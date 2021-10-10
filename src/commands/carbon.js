@@ -2,7 +2,7 @@ const { sendContent, sendEmbed, sendFile } = require("../utils/functions/sendmes
 const help = require("./help")
 
 const fetch = require("node-fetch");
-const url = "https://carbonnowsh.herokuapp.com/"
+const url = "https://carbonara-42.herokuapp.com/api/cook"
 let xhr = new XMLHttpRequest();
 
 const { getModule } = require("powercord/webpack")
@@ -24,29 +24,25 @@ module.exports = {
                 return
             }
 
-            const contentNL = content.replace(/\n/g, "%250A")
             const data = {
-                "code": contentNL,
-                backgroundColor: "rgba(54, 57, 63)"
+                "code": content,
+                backgroundColor: "rgba(0, 0, 0, 0)"
             }
 
-            fetch(url, {
-                method: 'POST',
+            const res = await fetch(url, {
+                method: "POST",
                 headers: {
                     "Accept": "image/*",
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify(data)
-            }).then(response => {
-                console.log(response)
-                response.blob().then(async function(e) {
-                    const buf = await e.arrayBuffer()
-                    const file = new File([buf], "carbon" + message.id + ".png", {
-                        type: "image/png"
-                    })
-                    sendFile(channelId, file)
-                })
             })
+            const buf = await res.buffer()
+            const file = new File([buf], "carbon" + message.id + ".png", {
+                type: "image/png"
+            })
+
+            sendFile(channelId, file)
         },
 
         "about": "Get a carbon image of your code.",
