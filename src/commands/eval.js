@@ -1,7 +1,7 @@
 const { sendContent } = require("../utils/functions/sendmessages")
 const Embed = require("../utils/structures/embed")
 const carbon = require("./carbon")
-
+const { getModule } = require("powercord/webpack")
 
 module.exports = {
     "default": {
