@@ -9,7 +9,7 @@ module.exports = class Embed {
     constructor(author = false, timestamp = true, type = "rich") {
         this.type = type;
         if(author) {
-            this.setAuthor(author.username + author.discriminator, "", getAvatar(author.id, author.avatar))
+            this.setAuthor(author.username + "#" + author.discriminator, "", getAvatar(author.id, author.avatar))
         }
         if(timestamp) {
             this.setTimestamp(new Date(Date.now()).toISOString())
