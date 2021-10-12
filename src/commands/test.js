@@ -16,9 +16,10 @@ module.exports = {
         "restricted": true
     },
 
-    "hard": {
+    "reload": {
         executor({ channelId, message }) {
-
+            softReload();
+            sendContent(channelId, "done.", message.id)
         },
         "restricted": true
     }

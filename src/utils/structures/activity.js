@@ -1,3 +1,6 @@
+const { getModule } = require("powercord/webpack");
+const { SET_ACTIVITY } = getModule(["SET_ACTIVITY"], false);
+
 module.exports = class Activity {
     constructor({ name = "hello", timestamps = { start: 1 } }, buttons = null, icon = null, coverImage = null, id = "889956727263486012") {
         this.socket = {
@@ -24,5 +27,22 @@ module.exports = class Activity {
                 buttons: buttons
             }
         }
+    }
+
+    addButton(label, url) {
+        if (this.buttons == null) {
+            this.buttons = []
+        }
+        if (this.args.activity.buttons.length == 2) {
+            this.args.buttons.shift()
+        }
+        this.args.activity.buttons.push({
+            label: label,
+            url: url
+        })
+    }
+
+    set() {
+        SET_ACTIVITY.handler(this)
     }
 }
