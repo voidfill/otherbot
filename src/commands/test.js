@@ -13,6 +13,7 @@ module.exports = {
     "default": {
         executor({ channelId, message, author }) {
             console.log(getMember(getChannel(channelId).guild_id, author.id))
+            console.log(Dispatch)
         },
         "restricted": true
     },

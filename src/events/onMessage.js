@@ -10,7 +10,12 @@ const { Permissions } = getModule(["Permissions"], false);
 const { can } = getModule(["getChannelPermissions"], false);
 const { getChannel } = getModule(["getChannel"], false);
 
+const nests = require("nests")
+global.messageStore ? {} : global.messageStore = nests.make()
+
 module.exports = async ({ channelId, message }) => {
+
+    global.messageStore.store[channelId][message.id] = message
 
     const author = message.author
     if (author.id === botUserId || !can(Permissions.SEND_MESSAGES, getChannel(channelId))) { return }
