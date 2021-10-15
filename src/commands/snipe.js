@@ -15,7 +15,7 @@ module.exports = {
 
             global.deletedMessageStore.ghost[channelId].splice(-2).forEach(s =>{
                 let m = global.messageStore.ghost[channelId][s]
-                e.addField(m.author.username + "#" + m.author.discriminator, m.content.length < 512 ? m.content: "too long for the bot to display :(")
+                e.addField(m.author.username + "#" + m.author.discriminator, m.content.length > 0 && m.content.length < 512 ? m.content : "Message either didnt have content or was too long :c")
             })
             e.send(channelId)
         },
@@ -34,10 +34,10 @@ module.exports = {
 
             let e = new Embed(author)
             e.setTitle("Snipe")
-
+            e.setDescription("unreliable rn, sorry.")
             global.editedMessageStore.ghost[channelId].splice(-2).forEach(s => {
                 let m = global.messageStore.ghost[channelId][s]
-                e.addField(m.author.username + "#" + m.author.discriminator, m.content.length < 512 ? m.content : "too long for the bot to display :(")
+                e.addField(m.author.username + "#" + m.author.discriminator, m.content.length > 0 && m.content.length < 512 ? m.content : "Message either didnt have content or was too long :c")
             })
             e.send(channelId)
         },

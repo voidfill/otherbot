@@ -10,7 +10,6 @@ module.exports = async (args) => {
             global.editedMessageStore.store[args.message.channel_id] = []
         }
         global.editedMessageStore.store[args.message.channel_id].push(args.message.id)
-        console.log(args)
     }
     if (args.type == "MESSAGE_DELETE") {
         if (!global.deletedMessageStore.ghost[args.channelId]) {

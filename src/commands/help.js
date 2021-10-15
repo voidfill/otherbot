@@ -23,14 +23,14 @@ module.exports = {
                 let subs = Object.keys(commands[args[0]]).filter(e => commands[args[0]][e].executor)
                 if (alt == "default" && subs.length > 1) {
                     subs.shift()
-                    e.addField("Subcommands:", subs.join(", "), true)
+                    e.addField("Subcommands", subs.join(", "), true)
                 }
 
                 e.send(channelId)
                 return
             }
 
-            e.addField("Available commands:", Object.keys(commands).join(", "))
+            e.addField("Available commands", Object.keys(commands).join(", "))
             e.setDescription("Run " + prefix + "help [command] to get more info about a particular command.")
 
             e.send(channelId)
