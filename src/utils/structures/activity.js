@@ -27,11 +27,12 @@ module.exports = class Activity {
                 buttons: buttons
             }
         }
+
     }
 
     addButton(label, url) {
-        if (this.buttons == null) {
-            this.buttons = []
+        if (this.args.activity.buttons == null) {
+            this.args.activity.buttons = []
         }
         if (this.args.activity.buttons.length == 2) {
             this.args.buttons.shift()
@@ -40,6 +41,10 @@ module.exports = class Activity {
             label: label,
             url: url
         })
+    }
+
+    isSocketConnected() {
+        return true
     }
 
     set() {

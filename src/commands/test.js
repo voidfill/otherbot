@@ -8,15 +8,14 @@ const { getMember } = getModule(["getMember"], false)
 const { getChannel } = getModule(["getChannel"], false)
 const { getMessageByReference } = getModule(["getMessageByReference"], false)
 const { handleWelcomeCtaClicked } = getModule(["handleWelcomeCtaClicked"], false)
+const fetch = require("node-fetch")
 
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channel, message, author, args }) {
-            let uid = getUID(args)
-            if (!uid) { uid = author.id }
-            console.log(uid)
-            console.log(getMember("565881023095767040", uid))
+        async executor({ channel, message, author, args }) {
+
+            console.log(res)
         },
         "restricted": true
     },

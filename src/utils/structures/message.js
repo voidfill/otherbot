@@ -23,7 +23,7 @@ module.exports = class Message {
         if (message_id) {
             this.message_reference = {
                 "message_id": message_id,
-                "channel_id": channelId,
+                "channel_id": channel.id,
                 "guild_id": channel.guild_id,
                 "fail_if_not_exists": false
             }
