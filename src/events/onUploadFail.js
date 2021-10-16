@@ -1,5 +1,8 @@
+const { getModule } = require("powercord/webpack")
+
 const { sendContent } = require("../utils/functions/sendmessages")
+const { getChannel } = getModule(["getChannel"], false)
 
 module.exports = async ({channelId, file}) => {
-    sendContent(channelId, "Fileupload failed :|\nFile: " + file.name)
+    sendContent(getChannel(channelId), "Fileupload failed :|\nFile: " + file.name)
 }

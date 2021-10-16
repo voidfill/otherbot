@@ -27,14 +27,14 @@ module.exports = {
     },
 
     "default": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             let e = new Embed(author);
             e.setTitle("Random fumo")
             const res = await fetch("http://fumoapi.herokuapp.com/random");
             const data = await res.json();
             e.setImage(data.URL);
             e.setDescription("id: " + data._id)
-            e.send(channelId);
+            e.send(channel);
         },
 
         "about": "Get a random fumo image",
@@ -43,9 +43,9 @@ module.exports = {
     },
 
     "id": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             if (args.length == 0) {
-                sendContent(channelId, "You need to provide an id.\nSyntx: " + this.syntax, message.id)
+                sendContent(channel, "You need to provide an id.\nSyntx: " + this.syntax, message.id)
                 return
             }
             let e = new Embed(author);
@@ -55,9 +55,9 @@ module.exports = {
                 const data = await res.json();
                 e.setImage(data.URL);
                 e.setDescription("id: " + data._id)
-                e.send(channelId);
+                e.send(channel);
             } catch(e) {
-                sendContent(channelId, "That id isnt valid.", message.id)
+                sendContent(channel, "That id isnt valid.", message.id)
             }
         },
 

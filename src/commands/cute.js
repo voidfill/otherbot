@@ -4,17 +4,17 @@ const { getUID } = require("../utils/functions/commons")
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             const uid = getUID(args)
             if (uid) {
-                const cute = Math.floor(parseInt(uid.slice(1, 3))) * 1.25 - 25
-                sendContent(channelId,
+                const cute = Math.floor(parseInt(uid.slice(1, 3)) * 1.25 - 25)
+                sendContent(channel,
                     "<@!" + uid + "> is " + cute + "% cute " + (cute> 50 ? "<3" : "</3")
                     , message.id)
                     return
             }
-            const cute = Math.floor(parseInt(author.id.slice(1, 3))) * 1.25 - 25
-            sendContent(channelId, 
+            const cute = Math.floor(parseInt(author.id.slice(1, 3)) * 1.25 - 25)
+            sendContent(channel, 
                 "You are " + cute + "% cute " + (cute > 50 ? "<3" : "</3")
                 , message.id)
         },

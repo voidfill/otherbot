@@ -15,11 +15,11 @@ const f = {
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             let uid = getUID(args)
             if (!uid) { uid = author.id }
 
-            const member = getMember(getChannel(channelId).guild_id, uid)
+            const member = getMember(channel.guild_id, uid)
             console.log(member)
             fetchProfile(uid, f, res => {
                 let accsholder = "```"
@@ -44,7 +44,7 @@ module.exports = {
                 }
                 e.addField("Bio", user.bio ? user.bio : "none")
                 e.addField("Connected accounts", (res.connected_accounts.length == 0 ? "none" : accsholder))
-                e.send(channelId)
+                e.send(channel)
             })
         },
 

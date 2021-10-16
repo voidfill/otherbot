@@ -4,9 +4,9 @@ const Activity = require("../utils/structures/activity")
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             if (args.length == 0) {
-                sendContent(channelId, "Not setting to empty name.", message.id)
+                sendContent(channel, "Not setting to empty name.", message.id)
                 return
             }
 
@@ -24,7 +24,7 @@ module.exports = {
                     a.set()
                 } catch(e) {
                     console.log(e)
-                    sendContent(channelId, "something went wrong.", message.id)
+                    sendContent(channel, "something went wrong.", message.id)
                 }
                 return
             }

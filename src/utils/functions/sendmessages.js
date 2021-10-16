@@ -17,15 +17,15 @@ async function queue(message) {
 }
 
 module.exports = {
-    sendEmbed(channel_id, embed, message_id = false) {
+    sendEmbed(channel, embed, message_id = false) {
         queue(
-            new Message(channel_id, "", embed, message_id)
+            new Message(channel, "", embed, message_id)
         )
     },
 
-    sendContent(channel_id, content, message_id = false) {
+    sendContent(channel, content, message_id = false) {
         queue(
-            new Message(channel_id, content, false, message_id)
+            new Message(channel, content, false, message_id)
         )
     },
 
@@ -33,8 +33,8 @@ module.exports = {
         queue(message)
     },
 
-    sendFile(channel_id, file) {
-        upload(channel_id,
+    sendFile(channel, file) {
+        upload(channel.id,
             file,
             0, {
             "content": "",

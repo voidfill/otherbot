@@ -12,7 +12,7 @@ const { handleWelcomeCtaClicked } = getModule(["handleWelcomeCtaClicked"], false
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, args }) {
+        executor({ channel, message, author, args }) {
             let uid = getUID(args)
             if (!uid) { uid = author.id }
             console.log(uid)
@@ -22,9 +22,9 @@ module.exports = {
     },
 
     "reload": {
-        executor({ channelId, message }) {
+        executor({ channel, message }) {
             softReload();
-            sendContent(channelId, "done.", message.id)
+            sendContent(channel, "done.", message.id)
         },
         "restricted": true
     }

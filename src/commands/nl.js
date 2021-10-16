@@ -8,20 +8,17 @@ const sfwCommands = Object.keys(nekoEndpoints.sfw)
 const nsfwCommands = Object.keys(nekoEndpoints.nsfw)
 const notActuallySfw = ["holo", "wallpaper"]
 
-const { getModule } = require("powercord/webpack")
-const { getChannel } = getModule(["getChannel"], false)
-
 const { prefix, responders, botUserId, botOwnerId, allowedUsers, admins } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             let e = new Embed(author)
             e.setTitle("Nekos.life")
             e.setDescription(this.about)
             e.addField("Sfw commands:", sfwCommands.join(", "))
             e.addField("Nsfw commands:", nsfwCommands.join(", "))
             e.addField("Syntax:", this.syntax, true)
-            e.send(channelId)
+            e.send(channel)
         },
 
         "about": "Nekos.life api.",
@@ -30,9 +27,9 @@ module.exports = {
     },
 
     "sfw": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
-            if (!getChannel(channelId).nsfw && notActuallySfw.includes(args[0])) {
-                sendContent(channelId, "This subcommand isnt 100% sfw so itll only work in nsfw channels. Blame nekos.life.", message.id)
+        async executor({ channel, message, author, contentRaw, content, args }) {
+            if (!channel.nsfw && notActuallySfw.includes(args[0])) {
+                sendContent(channel, "This subcommand isnt 100% sfw so itll only work in nsfw channels. Blame nekos.life.", message.id)
                 return
             }
 
@@ -41,18 +38,18 @@ module.exports = {
             if (args.length > 0 && sfwCommands.includes(args[0])) {
                 if (args[0] == "cattext") {
                     const text = await neko.sfw.cattext()
-                    sendContent(channelId, text.cat, message.id)
+                    sendContent(channel, text.cat, message.id)
                     return
                 }
                 const image = await neko.sfw[args[0]]()
                 e.setImage(image.url)
                 e.setFooter("Provided by nekos.life api.")
-                e.send(channelId)
+                e.send(channel)
                 return
             }
 
             e.setDescription("That subcommand doesnt exist. Heres a full list:\n" + sfwCommands.join(", "))
-            e.send(channelId)
+            e.send(channel)
         },
 
         "about": "sfw part of nekos.life api.",
@@ -61,9 +58,9 @@ module.exports = {
     },
 
     "nsfw": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
-            if (!getChannel(channelId).nsfw) {
-                sendContent(channelId, "You cant use nsfw commands in a sfw channel, smh.", message.id)
+        async executor({ channel, message, author, contentRaw, content, args }) {
+            if (!channel.nsfw) {
+                sendContent(channel, "You cant use nsfw commands in a sfw channel, smh.", message.id)
                 return
             }
 
@@ -74,13 +71,13 @@ module.exports = {
                 const image = await neko.nsfw[args[0]]()
                 e.setImage(image.url)
                 e.setFooter("Provided by nekos.life api.")
-                e.send(channelId)
+                e.send(channel)
                 return
             }
 
             e.setTitle("Nekos.life")
             e.setDescription("That subcommand doesnt exist. Heres a full list:\n" + nsfwCommands.join(", "))
-            e.send(channelId)
+            e.send(channel)
         },
 
         "about": "nsfw part of nekos.life api.",

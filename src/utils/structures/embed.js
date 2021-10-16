@@ -17,12 +17,13 @@ module.exports = class Embed {
         this.color = false
     }
 
-    send(channelId, message_id = false) {
+    send(channel, message_id = false) {
         if (!this.color) {
-            const guild = getChannel(channelId).guild_id
-            this.color = parseInt(getMember(guild, botUserId).colorString.slice(1) || "ffc9fe", 16)
+            this.color = parseInt(
+                channel.guild_id != null ? getMember(channel.guild_id, botUserId).colorString.slice(1) || "ffc9fe" : "ffc9fe",
+                16)
         }
-        sendEmbed(channelId, this, message_id);
+        sendEmbed(channel, this, message_id);
     }
 
     //useless since user account limits are different apparently

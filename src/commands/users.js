@@ -7,13 +7,13 @@ const help = require("../commands/help")
 const { prefix, responders, botUserId, allowedUsers, admins, botOwnerId } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             let e = new Embed(author);
             e.setTitle("Users");
             e.setDescription("options: add, remove, clear");
             const list = "<@!" + allowedUsers.join(">, <@!") + ">";
             e.addField("List", list);
-            e.send(channelId);
+            e.send(channel);
         },
 
         "about": "Lists all current users.",
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     "add": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             const uid = getUID(args);
             if (uid) {
                 let e = new Embed(author);
@@ -30,7 +30,7 @@ module.exports = {
 
                 if (allowedUsers.includes(uid)) {
                     e.setDescription("<@!" + uid + "> is already on the list.");
-                    e.send(channelId);
+                    e.send(channel);
                     return
                 }
                 allowedUsers.push(uid);
@@ -38,7 +38,7 @@ module.exports = {
                 setTimeout(softReload(), 2000);
 
                 e.setDescription("Added <@!" + uid + ">");
-                e.send(channelId);
+                e.send(channel);
                 return
             }
             help.default.executor({ channelId: channelId, author: author, args: ["users", "add"] })
@@ -50,7 +50,7 @@ module.exports = {
     },
 
     "remove": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             const uid = getUID(args);
             if (uid) {
                 const index = allowedUsers.indexOf(uid);
@@ -63,7 +63,7 @@ module.exports = {
                 let e = new Embed(author);
                 e.setTitle("Users");
                 e.setDescription("Removed <@!" + uid + ">");
-                e.send(channelId);
+                e.send(channel);
                 return
             }
             help.default.executor({ channelId: channelId, author: author, args: ["users", "remove"] })
@@ -75,14 +75,14 @@ module.exports = {
     },
 
     "clear": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             settings.set("allowedUsers", []);
             setTimeout(softReload(), 2000);
 
             let e = new Embed(author);
             e.setTitle("Users");
             e.setDescription("Cleared the list c:");
-            e.send(channelId);
+            e.send(channel);
         },
 
         "about": "Clear the allowed user list",

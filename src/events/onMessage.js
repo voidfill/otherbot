@@ -17,8 +17,9 @@ module.exports = async ({ channelId, message }) => {
 
     global.messageStore.store[channelId][message.id] = message
 
+    const channel = getChannel(channelId)
     const author = message.author
-    if (author.id === botUserId || !can(Permissions.SEND_MESSAGES, getChannel(channelId))) { return }
+    if (author.id === botUserId || (!can(Permissions.SEND_MESSAGES, channel) && channel.guild_id != null)) { return }
 
     if (message.content.toLowerCase().startsWith(prefix) && (allowed.has(author.id) || author.id == botOwnerId)) {
         const contentRaw = message.content.slice(prefix.length)
@@ -34,7 +35,7 @@ module.exports = async ({ channelId, message }) => {
             let content = contentRaw.slice(command.length).trim()
 
             let arguments = {
-                "channelId": channelId,
+                "channel": channel,
                 "message": message,
                 "author": author,
                 "contentRaw": contentRaw,
@@ -44,7 +45,7 @@ module.exports = async ({ channelId, message }) => {
 
             if (commands[command][args[0]] && commands[command][args[0]].executor) {
                 if ((commands[command][args[0]].restricted && !allowedTop.has(author.id) && author.id != botOwnerId) || (commands[command][args[0]].restricted == "owner" && author.id != botOwnerId)) {
-                    sendContent(channelId, "Youre not authorised to do that.", message.id)
+                    sendContent(channel.id, "Youre not authorised to do that.", message.id)
                     return
                 }
 

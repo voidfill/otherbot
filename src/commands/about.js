@@ -13,7 +13,7 @@ const botUser = getModule(["getCurrentUser"], false).getCurrentUser();
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             let e = new Embed(author);
             e.setTitle("OtherBot");
             e.setUrl("https://github.com/voidfill/otherbot");
@@ -25,7 +25,7 @@ module.exports = {
             e.addField("Guilds", guildNames.join(", "))
             e.addField("Platform", build + " " + buildType + " " + buildId)
             e.setFooter("<3")
-            e.send(channelId);
+            e.send(channel);
         },
 
         "about": "Get some info about the bot.",

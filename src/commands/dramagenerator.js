@@ -4,7 +4,7 @@ const fetch = require("node-fetch")
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             const drama = await(
                 await fetch('https://dramageneratorbackend.herokuapp.com/api/generate', {
                     method: 'POST',
@@ -12,7 +12,7 @@ module.exports = {
                 })
             ).json();
 
-            sendContent(channelId, drama.phrase, message.id)
+            sendContent(channel, drama.phrase, message.id)
         },
 
         "about": "Discord drama generator.",

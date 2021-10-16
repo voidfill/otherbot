@@ -1,5 +1,3 @@
-const Embed = require("../utils/structures/embed")
-
 const nests = require("nests")
 global.deletedMessageStore ? {} : global.deletedMessageStore = nests.make()
 global.editedMessageStore ? {} : global.editedMessageStore = nests.make()

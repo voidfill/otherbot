@@ -5,7 +5,7 @@ const { getModule } = require("powercord/webpack")
 
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             try {
                 eval(content)
             } catch (err) {
@@ -17,7 +17,7 @@ module.exports = {
                             .replace("{\"stack\":\"", "")
                             .replace(/\\n\s*/g, " ")
                     )
-                    e.send(channelId, message.id)
+                    e.send(channel, message.id)
             } finally {
                 console.log("Evaluated " + content)
             }

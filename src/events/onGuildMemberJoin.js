@@ -1,5 +1,8 @@
 const Embed = require("../utils/structures/embed")
 const { getAvatar } = require("../utils/functions/commons")
+const { getModule } = require("powercord/webpack")
+
+const { getChannel } = getModule(["getChannel"], false)
 
 const yep = {
     "885600160212717608": "897426258290413588"
@@ -15,6 +18,6 @@ module.exports = async function ({ guildId, joinedAt, user, nick}) {
         e.setThumbnail(getAvatar(user.id, user.avatar))
         e.setDescription(user.username + "#" + user.discriminator)
         e.addField("Id", user.id)
-        e.send(yep[guildId])
+        e.send(getChannel(yep[guildId]))
     }
 }

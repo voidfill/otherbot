@@ -8,19 +8,18 @@ let xhr = new XMLHttpRequest();
 const { getModule } = require("powercord/webpack")
 const { Permissions } = getModule(["Permissions"], false);
 const { can } = getModule(["getChannelPermissions"], false);
-const { getChannel } = getModule(["getChannel"], false);
 
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             if (args.length == 0) {
-                help.default.executor({ channelId: channelId, author: author, args: ["carbon"] })
+                help.default.executor({ channel: channel, author: author, args: ["carbon"] })
                 return
             }
 
-            if (!can(Permissions.ATTACH_FILES, getChannel(channelId))) {
-                sendContent(channelId, "I cant upload files here. Please use this command in a channel where i can.", message.id)
+            if (!can(Permissions.ATTACH_FILES, channel)) {
+                sendContent(channel, "I cant upload files here. Please use this command in a channel where i can.", message.id)
                 return
             }
 
@@ -42,7 +41,7 @@ module.exports = {
                 type: "image/png"
             })
 
-            sendFile(channelId, file)
+            sendFile(channel, file)
         },
 
         "about": "Get a carbon image of your code.",

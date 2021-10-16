@@ -10,13 +10,13 @@ const uidReg = new RegExp("/\d{18}/g")
 const { prefix, responders, botUserId, allowedUsers, admins, botOwnerId } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({channel, message, author, contentRaw, content, args }) {
             let e = new Embed(author);
             e.setTitle("Admins")
             e.setDescription("options: add, remove, clear")
             const list = "<@!" + admins.join(">, <@!") + ">"
             e.addField("List", list)
-            e.send(channelId)
+            e.send(channel)
         },
 
         "about": "Lists all current admins.",
@@ -25,7 +25,7 @@ module.exports = {
     },
 
     "add": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             const uid = getUID(args);
             if (uid) {
                 let e = new Embed(author);
@@ -33,7 +33,7 @@ module.exports = {
 
                 if (admins.includes(uid)) {
                     e.setDescription("<@!" + uid + "> is already on the list.")
-                    e.send(channelId)
+                    e.send(channel)
                     return
                 }
                 admins.push(uid)
@@ -45,10 +45,10 @@ module.exports = {
                 setTimeout(softReload(), 2000)
 
                 e.setDescription("Added <@!" + uid +">")
-                e.send(channelId)
+                e.send(channel)
                 return
             }
-            help.default.executor({ channelId: channelId, author: author, args: ["admins", "add"] })
+            help.default.executor({ channel: channel, author: author, args: ["admins", "add"] })
         },
 
         "about": "Add a user to the admin list.",
@@ -57,7 +57,7 @@ module.exports = {
     },
 
     "remove": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             const uid = getUID(args);
             if (uid) {
                 const index = admins.indexOf(uid)
@@ -70,11 +70,11 @@ module.exports = {
                 let e = new Embed(author);
                 e.setTitle("Admins")
                 e.setDescription("Removed <@!" + uid + ">")
-                e.send(channelId)
+                e.send(channel)
 
                 return
             }
-            help.default.executor({ channelId: channelId, author: author, args: ["admins", "remove"] })
+            help.default.executor({ channel: channel, author: author, args: ["admins", "remove"] })
         },
 
         "about": "Remove a user from the admin list.",
@@ -83,14 +83,14 @@ module.exports = {
     },
 
     "clear": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             settings.set("admins", [])
             setTimeout(softReload(), 2000)
 
             let e = new Embed(author);
             e.setTitle("Admins")
             e.setDescription("Cleared the list c:")
-            e.send(channelId)
+            e.send(channel)
         },
 
         "about": "Clear the admins list",

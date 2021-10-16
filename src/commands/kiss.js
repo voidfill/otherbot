@@ -5,7 +5,7 @@ const { getFromNeko } = require("./nl")
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        async executor({ channelId, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             let e = new Embed(author);
             const uid = getUID(args);
             if(uid) {
@@ -15,7 +15,7 @@ module.exports = {
                 await getFromNeko("sfw", "kiss")
             )
             e.setFooter("Provided by Nekos.life api.")
-            e.send(channelId)
+            e.send(channel)
         },
 
         "about": "Kiss someone.",

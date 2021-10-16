@@ -4,13 +4,13 @@ const { softReload } = require("../utils/functions/commons")
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        executor({ channelId, message, author, contentRaw, content, args }) {
+        executor({ channel, message, author, contentRaw, content, args }) {
             if (args.length == 0) {
-                sendContent(channelId, "The prefix must be at least one character long.", message.id)
+                sendContent(channel, "The prefix must be at least one character long.", message.id)
                 return
             }
             settings.set("prefix", content.toLowerCase())
-            sendContent(channelId, "Set the prefix to " + content.toLowerCase(), message.id)
+            sendContent(channel, "Set the prefix to " + content.toLowerCase(), message.id)
             softReload()
         },
 

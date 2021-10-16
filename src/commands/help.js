@@ -5,7 +5,7 @@ const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powerco
 
 module.exports = {
     "default": {
-        executor({ channelId, author, args }) {
+        executor({ channel, author, args }) {
             let e = new Embed(author)
             e.setTitle("Help menu")
 
@@ -26,14 +26,14 @@ module.exports = {
                     e.addField("Subcommands", subs.join(", "), true)
                 }
 
-                e.send(channelId)
+                e.send(channel)
                 return
             }
 
             e.addField("Available commands", Object.keys(commands).join(", "))
             e.setDescription("Run " + prefix + "help [command] to get more info about a particular command.")
 
-            e.send(channelId)
+            e.send(channel)
             return
         },
 
