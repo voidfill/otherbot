@@ -2,6 +2,7 @@ const { sendContent } = require("../utils/functions/sendmessages")
 const Embed = require("../utils/structures/embed")
 const carbon = require("./carbon")
 const { getModule } = require("powercord/webpack")
+const { getGuilds } = getModule(["getGuilds"], false)
 
 module.exports = {
     "default": {

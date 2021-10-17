@@ -10,7 +10,7 @@ module.exports = {
         },
 
         "about": "rape someone o-o",
-        "syntax": prefix + "rape [userid/mention",
+        "syntax": prefix + "rape [userid/mention]",
         "restricted": false
     }
 }

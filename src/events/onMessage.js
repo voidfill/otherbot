@@ -12,6 +12,9 @@ const { getChannel } = getModule(["getChannel"], false);
 
 const nests = require("nests")
 global.messageStore ? {} : global.messageStore = nests.make()
+global.stats ? {} : global.stats = nests.make()
+global.stats.ghost.commandsRan ? {} : global.stats.store.commandsRan = 0
+global.stats.ghost.active ? {} : global.stats.store.active = []
 
 module.exports = async ({ channelId, message }) => {
 
@@ -27,6 +30,8 @@ module.exports = async ({ channelId, message }) => {
         const command = args.shift()
 
         if (commands[command]) {
+            global.stats.store.commandsRan++;
+            global.stats.store.active.includes(author.id) ? {} : global.stats.store.active.push(author.id)
             if (commands[command].default.restricted && !allowedTop.has(author.id) && author.id != botOwnerId) { //maybe check if args.length is higher? allow non default comamnds?
                 sendContent(channelId, "Youre not authorised to do that.", message.id)
                 return

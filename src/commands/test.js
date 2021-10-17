@@ -9,13 +9,13 @@ const { getChannel } = getModule(["getChannel"], false)
 const { getMessageByReference } = getModule(["getMessageByReference"], false)
 const { handleWelcomeCtaClicked } = getModule(["handleWelcomeCtaClicked"], false)
 const fetch = require("node-fetch")
+const statcord = require("../utils/structures/statcord")
 
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = {
     "default": {
-        async executor({ channel, message, author, args }) {
+        executor({ channel, message }) {
 
-            console.log(res)
         },
         "restricted": true
     },

@@ -3,7 +3,7 @@ const { getModule } = require("powercord/webpack");
 const Dispatch = getModule(["dirtyDispatch"], false)
 const { onMessage, onMessageChange, onReactionAdd, onUploadFail, onGuildMemberJoin, onGuildMemberUpdate } = require("./src/events");
 
-
+const statcord = require("./src/utils/structures/statcord")
 const settings = require("./src/utils/functions/settings")
 module.exports = class OtherBot extends Plugin {
 
@@ -26,6 +26,7 @@ module.exports = class OtherBot extends Plugin {
         Dispatch.subscribe("UPLOAD_FAIL", onUploadFail);
         Dispatch.subscribe("GUILD_MEMBER_ADD", onGuildMemberJoin);
         Dispatch.subscribe("GUILD_MEMBER_UPDATE", onGuildMemberUpdate);
+        statcord.autoPost()
     }
 
     pluginWillUnload () {
@@ -37,6 +38,7 @@ module.exports = class OtherBot extends Plugin {
         Dispatch.unsubscribe("UPLOAD_FAIL", onUploadFail);
         Dispatch.unsubscribe("GUILD_MEMBER_ADD", onGuildMemberJoin);
         Dispatch.unsubscribe("GUILD_MEMBER_UPDATE", onGuildMemberUpdate);
+        statcord.stopAutoPost()
     }
 
 };
