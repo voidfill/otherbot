@@ -25,7 +25,7 @@ const statcord = {
         const load = await si.currentLoad();
         const stats = {
             id: "887739462103216199", //main statcord bot page, use an actual bots id in your version
-            key: "statcord.com-API KEY, GET UR OWN", //dont steal pls lmfao
+            key: "statcord.com-IOgDh4ECVoQZI7volDHP", //dont steal pls lmfao
             servers: Object.keys(getGuilds()).length.toString(),
             users: allowedUsers.length.toString(),
             active: Array.from(global.stats.ghost.active),
