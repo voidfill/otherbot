@@ -25,7 +25,7 @@ module.exports = class OtherBot extends Plugin {
         Dispatch.subscribe("MESSAGE_REACTION_ADD", onReactionAdd);
         Dispatch.subscribe("UPLOAD_FAIL", onUploadFail);
         Dispatch.subscribe("GUILD_MEMBER_ADD", onGuildMemberJoin);
-        Dispatch.subscribe("GUILD_MEMBER_UPDATE", onGuildMemberUpdate);
+        //Dispatch.subscribe("GUILD_MEMBER_UPDATE", onGuildMemberUpdate);
         statcord.autoPost()
     }
 
@@ -37,7 +37,7 @@ module.exports = class OtherBot extends Plugin {
         Dispatch.unsubscribe("MESSAGE_REACTION_ADD", onReactionAdd);
         Dispatch.unsubscribe("UPLOAD_FAIL", onUploadFail);
         Dispatch.unsubscribe("GUILD_MEMBER_ADD", onGuildMemberJoin);
-        Dispatch.unsubscribe("GUILD_MEMBER_UPDATE", onGuildMemberUpdate);
+        //Dispatch.unsubscribe("GUILD_MEMBER_UPDATE", onGuildMemberUpdate);
         statcord.stopAutoPost()
     }
 

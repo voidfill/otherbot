@@ -32,8 +32,15 @@ module.exports = async ({ channelId, message }) => {
         if (commands[command]) {
             global.stats.store.commandsRan++;
             global.stats.store.active.includes(author.id) ? {} : global.stats.store.active.push(author.id)
+            if (global.stats.ghost.popular?.[command]?.count) {
+                global.stats.store.popular[command].count++
+            } else {
+                global.stats.store.popular[command].count = 1;
+                global.stats.store.popular[command].name = command.toString()
+            }
+
             if (commands[command].default.restricted && !allowedTop.has(author.id) && author.id != botOwnerId) { //maybe check if args.length is higher? allow non default comamnds?
-                sendContent(channelId, "Youre not authorised to do that.", message.id)
+                sendContent(channel, "Youre not authorised to do that.", message.id)
                 return
             }
 
@@ -50,7 +57,7 @@ module.exports = async ({ channelId, message }) => {
 
             if (commands[command][args[0]] && commands[command][args[0]].executor) {
                 if ((commands[command][args[0]].restricted && !allowedTop.has(author.id) && author.id != botOwnerId) || (commands[command][args[0]].restricted == "owner" && author.id != botOwnerId)) {
-                    sendContent(channel.id, "Youre not authorised to do that.", message.id)
+                    sendContent(channel, "Youre not authorised to do that.", message.id)
                     return
                 }
 

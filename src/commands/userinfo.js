@@ -18,9 +18,8 @@ module.exports = {
         async executor({ channel, message, author, contentRaw, content, args }) {
             let uid = getUID(args)
             if (!uid) { uid = author.id }
-
             const member = getMember(channel.guild_id, uid)
-            console.log(member)
+
             fetchProfile(uid, f, res => {
                 let accsholder = "```"
                 res.connected_accounts.forEach(element => {
@@ -49,7 +48,6 @@ module.exports = {
         },
 
         "about": "Get some helpful info about a user.",
-        "syntax": prefix + "userinfo [userid/mention]",
-        "restricted": "owner"
+        "syntax": prefix + "userinfo [userid/mention]"
     }
 }
