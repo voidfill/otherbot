@@ -25,11 +25,17 @@ module.exports = async ({ channelId, message }) => {
     if (author.id === botUserId || (!can(Permissions.SEND_MESSAGES, channel) && channel.guild_id != null)) { return }
 
     if (message.content.toLowerCase().startsWith(prefix) && (allowed.has(author.id) || author.id == botOwnerId)) {
+        if (!can(Permissions.EMBED_LINKS, channel) && channel.guild_id != null) {
+            sendContent(channel, "Missing permissions: embed links", message.id)
+            return
+        }
+
         const contentRaw = message.content.slice(prefix.length)
         const args = contentRaw.toLowerCase().split(" ").filter(e => e !== "")
         const command = args.shift()
 
         if (commands[command]) {
+
             global.stats.store.commandsRan++;
             global.stats.store.active.includes(author.id) ? {} : global.stats.store.active.push(author.id)
             if (global.stats.ghost.popular?.[command]?.count) {
@@ -39,13 +45,12 @@ module.exports = async ({ channelId, message }) => {
                 global.stats.store.popular[command].name = command.toString()
             }
 
-            if (commands[command].default.restricted && !allowedTop.has(author.id) && author.id != botOwnerId) { //maybe check if args.length is higher? allow non default comamnds?
+            if (commands[command].default.restricted && !allowedTop.has(author.id) && author.id != botOwnerId) {
                 sendContent(channel, "Youre not authorised to do that.", message.id)
                 return
             }
 
             let content = contentRaw.slice(command.length).trim()
-
             let arguments = {
                 "channel": channel,
                 "message": message,
@@ -56,7 +61,7 @@ module.exports = async ({ channelId, message }) => {
             }
 
             if (commands[command][args[0]] && commands[command][args[0]].executor) {
-                if ((commands[command][args[0]].restricted && !allowedTop.has(author.id) && author.id != botOwnerId) || (commands[command][args[0]].restricted == "owner" && author.id != botOwnerId)) {
+                if (commands[command][args[0]].restricted && !allowedTop.has(author.id) && author.id != botOwnerId) {
                     sendContent(channel, "Youre not authorised to do that.", message.id)
                     return
                 }

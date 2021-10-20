@@ -7,6 +7,10 @@ const { getGuilds } = getModule(["getGuilds"], false)
 module.exports = {
     "default": {
         executor({ channel, message, author, contentRaw, content, args }) {
+            if (args.length == 0) {
+                sendContent(channel, "You didnt give me anything to evaluate lmao.", message.id)
+                return
+            }
             try {
                 eval(content)
             } catch (err) {

@@ -20,7 +20,7 @@ module.exports = class Embed {
     send(channel, message_id = false) {
         if (!this.color) {
             this.color = parseInt(
-                channel.guild_id != null ? getMember(channel.guild_id, botUserId).colorString.slice(1) || "ffc9fe" : "ffc9fe",
+                channel.guild_id != null ? getMember(channel.guild_id, botUserId).colorString?.slice(1) || "ffc9fe" : "ffc9fe",
                 16)
         }
         sendEmbed(channel, this, message_id);

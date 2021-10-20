@@ -41,7 +41,7 @@ module.exports = {
                 e.send(channel);
                 return
             }
-            help.default.executor({ channelId: channelId, author: author, args: ["users", "add"] })
+            help.default.executor({ channel: channel, author: author, args: ["users", "add"] })
         },
 
         "about": "Add a user to the allowed list.",
@@ -66,7 +66,7 @@ module.exports = {
                 e.send(channel);
                 return
             }
-            help.default.executor({ channelId: channelId, author: author, args: ["users", "remove"] })
+            help.default.executor({ channel: channel, author: author, args: ["users", "remove"] })
         },
 
         "about": "Remove a user from the allowed list.",
