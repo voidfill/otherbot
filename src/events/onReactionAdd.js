@@ -1,9 +1,9 @@
 const { sendContent } = require("../utils/functions/sendmessages")
 
 const { getModule } = require("powercord/webpack");
-const { getChannel } = getModule(["getChannel"], false)
-const { Permissions } = getModule(["Permissions"], false);
+const { Permissions } = getModule(["API_HOST"], false);
 const { can } = getModule(["getChannelPermissions"], false);
+const { getChannel } = getModule(["getChannel", "getDMFromUserId"], false);
 
 module.exports = async ({channelId, emoji, messageId, userId}) => {
     const channel = getChannel(channelId)

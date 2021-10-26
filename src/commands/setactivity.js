@@ -22,6 +22,7 @@ module.exports = {
                         a.addButton(element.label.trim(), element.url.trim())
                     });
                     a.set()
+                    sendContent(channel, "Set activity to " + name)
                 } catch(e) {
                     console.log(e)
                     sendContent(channel, "something went wrong.", message.id)
@@ -33,6 +34,7 @@ module.exports = {
                 name: content
             })
             a.set()
+            sendContent(channel, "Set activity to " + content)
         },
 
         "about": "Set the bots \"currently playing\" status.",

@@ -6,9 +6,10 @@ const { sendContent } = require("../utils/functions/sendmessages")
 const commands = require("../commands")
 const { getModule } = require("powercord/webpack")
 
-const { Permissions } = getModule(["Permissions"], false);
+const { Permissions } = getModule(["API_HOST"], false);
 const { can } = getModule(["getChannelPermissions"], false);
-const { getChannel } = getModule(["getChannel"], false);
+const { getChannel } = getModule(["getChannel", "getDMFromUserId"], false);
+
 
 const nests = require("nests")
 global.messageStore ? {} : global.messageStore = nests.make()

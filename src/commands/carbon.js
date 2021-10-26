@@ -6,7 +6,7 @@ const url = "https://carbonara-42.herokuapp.com/api/cook"
 let xhr = new XMLHttpRequest();
 
 const { getModule } = require("powercord/webpack")
-const { Permissions } = getModule(["Permissions"], false);
+const { Permissions } = getModule(["API_HOST"], false);
 const { can } = getModule(["getChannelPermissions"], false);
 
 const { prefix, responders, botUserId, allowedUsers, allowedUsersTop } = powercord.api.settings.store.getSettings("otherbot")

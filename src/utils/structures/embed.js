@@ -2,7 +2,6 @@ const { sendEmbed } = require("../functions/sendmessages")
 const { getAvatar } = require("../functions/commons")
 const { getModule } = require("powercord/webpack")
 const { getMember } = getModule(["getMember"], false)
-const { getChannel } = getModule(["getChannel"], false)
 
 const { botUserId } = powercord.api.settings.store.getSettings("otherbot")
 module.exports = class Embed {
@@ -133,5 +132,12 @@ module.exports = class Embed {
 
     setUrl(url) {
         this.url = url;
+    }
+
+    setProvider(name = "", url = "") {
+        this.provider = {
+            name: name,
+            url: url
+        }
     }
 }
