@@ -3,7 +3,6 @@ const help = require("./help")
 
 const fetch = require("node-fetch");
 const url = "https://carbonara-42.herokuapp.com/api/cook"
-let xhr = new XMLHttpRequest();
 
 const { getModule } = require("powercord/webpack")
 const { Permissions } = getModule(["API_HOST"], false);

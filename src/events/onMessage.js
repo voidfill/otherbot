@@ -17,6 +17,15 @@ global.stats ? {} : global.stats = nests.make()
 global.stats.ghost.commandsRan ? {} : global.stats.store.commandsRan = 0
 global.stats.ghost.active ? {} : global.stats.store.active = []
 
+const linkReg = /https:\/\/[\s,\S]*.*discord.com\/channels\/[\d]{18}\/[\d]{18}\/[\d]{18}/gmi
+const embedMessageLinks = ["689612305578983446", "885600160212717608"]
+const { getWebhooksForGuild } = getModule(["getWebhooksForGuild"], false)
+const { fetchForGuild } = getModule(["fetchForGuild"], false)
+const { sendHook } = require("../utils/functions/webhook")
+const { getAvatar } = require("../utils/functions/commons")
+const fetch = require("node-fetch")
+const token = localStorage.getItem("token").replace(/\"/g, '')
+
 module.exports = async ({ channelId, message }) => {
 
     global.messageStore.store[channelId][message.id] = message
@@ -25,7 +34,7 @@ module.exports = async ({ channelId, message }) => {
     const author = message.author
     if (author.id === botUserId || (!can(Permissions.SEND_MESSAGES, channel) && channel.guild_id != null)) { return }
 
-    if (message.content.toLowerCase().startsWith(prefix) && (allowed.has(author.id) || author.id == botOwnerId)) {
+    if (message.content.toLowerCase().startsWith(prefix)) { // && (allowed.has(author.id) || author.id == botOwnerId )
         if (!can(Permissions.EMBED_LINKS, channel) && channel.guild_id != null) {
             sendContent(channel, "Missing permissions: embed links", message.id)
             return
@@ -76,6 +85,56 @@ module.exports = async ({ channelId, message }) => {
 
             commands[command].default.executor(arguments)
             return
+        }
+    }
+
+    if (linkReg.test(message.content) && embedMessageLinks.includes(channel.guild_id)) {
+        const link = message.content.match(linkReg)[0]
+        const ids = link.match(/[\d]{18}/gmi)
+        try {
+            const res = await fetch(`https://ptb.discord.com/api/v9/channels/${ids[1]}/messages?limit=1&around=${ids[2]}`, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": token,
+                    "User-Agent": "Powercord (https://github.com/powercord-org/powercord)"
+                }
+            })
+            const toJson = await res.json()
+            const messageFetched = toJson[0]
+            if(typeof messageFetched == "undefined") { return }
+
+            let webhooks = getWebhooksForGuild(channel.guild_id).filter(w=>w.channel_id == channel.id)
+            if (webhooks.length == 0) {
+                fetchForGuild(channel.guild_id)
+                setTimeout(() => {
+                    webhooks = getWebhooksForGuild(channel.guild_id).filter(w => w.channel_id == channel.id)
+                }, 1000)
+            }
+
+            if (webhooks.length == 0) {
+                const res = await fetch(`https://ptb.discord.com/api/v9/channels/${channel.id}/webhooks`, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": token,
+                        "User-Agent": "Powercord (https://github.com/powercord-org/powercord)"
+                    }, body: JSON.stringify({
+                        name: "otherbot"
+                    })
+                })
+                const toJson = await res.json()
+                webhooks.push(toJson)
+            }
+
+            sendHook(webhooks[0], {
+                content: messageFetched.content,
+                username: messageFetched.author.username,
+                avatar_url: getAvatar(messageFetched.author.id, messageFetched.author.avatar),
+                embeds: messageFetched.embeds
+            })
+        } catch (e) {
+            console.log(e)
         }
     }
 }
