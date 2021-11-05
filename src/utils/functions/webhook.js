@@ -6,7 +6,6 @@ const defaultMentions = {
 
 const token = localStorage.getItem("token").replace(/\"/g, '')
 
-
 async function sendHook(webhook, {
     content = "",
     username = "",

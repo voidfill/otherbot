@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 
 const token = localStorage.getItem("token").replace(/\"/g, '')
+const { botToken } = powercord.api.settings.store.getSettings("otherbot")
 
 module.exports = {
     async bulkdelete(channel, messages) {
@@ -8,7 +9,7 @@ module.exports = {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                "Authorization": "Bot ODg3NzM5NDYyMTAzMjE2MTk5.YUIhzQ.lQRxw11HWgtmDqzc8VlLhGBHgow",
+                "Authorization": botToken,
                 //"User-Agent": "Powercord (https://github.com/powercord-org/powercord)",
                 //"X-Audit-Log-Reason": "moved"
             },
