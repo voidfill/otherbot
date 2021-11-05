@@ -18,7 +18,8 @@ global.stats.ghost.commandsRan ? {} : global.stats.store.commandsRan = 0
 global.stats.ghost.active ? {} : global.stats.store.active = []
 
 const linkReg = /https:\/\/[\s,\S]*.*discord.com\/channels\/[\d]{18}\/[\d]{18}\/[\d]{18}/gmi
-const embedMessageLinks = ["689612305578983446", "885600160212717608"]
+const embedMessageLinks = ["689612305578983446", "885600160212717608", "829798084207706152"]
+
 const { getWebhooksForGuild } = getModule(["getWebhooksForGuild"], false)
 const { fetchForGuild } = getModule(["fetchForGuild"], false)
 const { sendHook } = require("../utils/functions/webhook")
@@ -32,19 +33,18 @@ module.exports = async ({ channelId, message }) => {
 
     const channel = getChannel(channelId)
     const author = message.author
-    if (author.id === botUserId || (!can(Permissions.SEND_MESSAGES, channel) && channel.guild_id != null)) { return }
+    if (author.id === botUserId || (!can(Permissions.SEND_MESSAGES, channel) && channel.guild_id != null) || author.bot == true) { return }
 
     if (message.content.toLowerCase().startsWith(prefix)) { // && (allowed.has(author.id) || author.id == botOwnerId )
-        if (!can(Permissions.EMBED_LINKS, channel) && channel.guild_id != null) {
-            sendContent(channel, "Missing permissions: embed links", message.id)
-            return
-        }
-
         const contentRaw = message.content.slice(prefix.length)
         const args = contentRaw.toLowerCase().split(" ").filter(e => e !== "")
         const command = args.shift()
 
         if (commands[command]) {
+            if (!can(Permissions.EMBED_LINKS, channel) && channel.guild_id != null) {
+                sendContent(channel, "Missing permissions: embed links", message.id)
+                return
+            }
 
             global.stats.store.commandsRan++;
             global.stats.store.active.includes(author.id) ? {} : global.stats.store.active.push(author.id)
@@ -104,11 +104,11 @@ module.exports = async ({ channelId, message }) => {
             const messageFetched = toJson[0]
             if(typeof messageFetched == "undefined") { return }
 
-            let webhooks = getWebhooksForGuild(channel.guild_id).filter(w=>w.channel_id == channel.id)
+            let webhooks = getWebhooksForGuild(channel.guild_id).filter(w=>w.channel_id == channel.id && w.name != "_matrix")
             if (webhooks.length == 0) {
                 fetchForGuild(channel.guild_id)
                 setTimeout(() => {
-                    webhooks = getWebhooksForGuild(channel.guild_id).filter(w => w.channel_id == channel.id)
+                    webhooks = getWebhooksForGuild(channel.guild_id).filter(w => w.channel_id == channel.id && w.name != "_matrix")
                 }, 1000)
             }
 
