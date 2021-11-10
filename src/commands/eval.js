@@ -4,9 +4,11 @@ const carbon = require("./carbon")
 const { getModule } = require("powercord/webpack")
 const { getGuilds } = getModule(["getGuilds"], false)
 
+const { getOrCreateWebhook, sendHook, sendMessage } = require("../utils/functions/webhook")
+
 module.exports = {
     "default": {
-        executor({ channel, message, author, contentRaw, content, args }) {
+        async executor({ channel, message, author, contentRaw, content, args }) {
             if (args.length == 0) {
                 sendContent(channel, "You didnt give me anything to evaluate lmao.", message.id)
                 return

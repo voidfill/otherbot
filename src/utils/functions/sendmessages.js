@@ -1,5 +1,5 @@
-const { getAllModules, getModule } = require("powercord/webpack");
-const messageQueue = getAllModules(arg => arg.enqueue)[0]
+const { getModule } = require("powercord/webpack");
+const messageQueue = getModule(m => m?.default?.enqueue, false).default;
 const { upload } = getModule(["instantBatchUpload"], false)
 
 const Message = require("../structures/message");

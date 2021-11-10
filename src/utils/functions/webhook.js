@@ -66,7 +66,7 @@ async function createWebhook(channel) {
 
 async function getOrCreateWebhook(channel) {
     let webhooks = await getWebhooksForChannel(channel)
-    webhooks.filter(w => w.name === "otherbot")
+    webhooks = webhooks.filter(w => w.name === "otherbot")
     if (webhooks.length > 0) {
         return webhooks[0]
     } else {
@@ -74,9 +74,18 @@ async function getOrCreateWebhook(channel) {
     }
 }
 
+async function sendMessage(channel, content, name) {
+    const webhook = await getOrCreateWebhook(channel)
+    sendHook(webhook, {
+        content: content,
+        username: name
+    })
+}
+
 module.exports = {
     sendHook,
     getWebhooksForChannel,
     createWebhook,
-    getOrCreateWebhook
+    getOrCreateWebhook,
+    sendMessage
 }
